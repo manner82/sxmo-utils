@@ -116,6 +116,11 @@ checkforfinishedcalls() {
 				"st -f Terminus-20 -e sh -c \"echo 'Missed call from $CONTACT at $(date)' && read\"" \
 				none \
 				"Missed call - $CONTACT"
+
+			if cat "$UNSUSPENDREASONFILE" | grep -q modem; then
+				cat "$LASTSTATE" | xargs sxmo_screenlock.sh
+				sxmo_screenlock.sh crust
+			fi
 		fi
 	done
 }
