@@ -145,6 +145,8 @@ checkforincomingcalls() {
 	INCOMINGNUMBER=$(lookupnumberfromcallid "$VOICECALLID")
 	CONTACTNAME=$(lookupcontactname "$INCOMINGNUMBER")
 
+	xset dpms force on
+
 	if [ -x "$XDG_CONFIG_HOME/sxmo/hooks/ring" ]; then
 		echo "sxmo_modemmonitor: Invoking ring hook (async)">&2
 		"$XDG_CONFIG_HOME/sxmo/hooks/ring" "$CONTACTNAME" &
@@ -168,6 +170,8 @@ checkfornewtexts() {
 		grep -Eo '[0-9]+'
 	)"
 	echo "$TEXTIDS" | grep -v . && return
+
+	xset dpms force on
 
 	# Loop each textid received and read out the data into appropriate logfile
 	for TEXTID in $TEXTIDS; do
