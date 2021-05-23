@@ -239,8 +239,6 @@ incomingcallmenu() {
 	NUMBER=$(vid_to_number "$1")
 	CONTACTNAME=$(number_to_contactname "$NUMBER")
 
-	# wait for sxmo to be unlocked to display menus
-	while [ "$(sxmo_screenlock.sh getCurState)" != "unlock" ]; do sleep 0.3; done
 	PICKED="$(
 		printf %b "$icon_phn Pickup\n$icon_phx Hangup\n$icon_mut Mute\n" |
 		dmenu -c -l 5 -p "$CONTACTNAME"

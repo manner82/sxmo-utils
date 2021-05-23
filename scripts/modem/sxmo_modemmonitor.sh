@@ -117,9 +117,11 @@ checkforfinishedcalls() {
 				none \
 				"Missed call - $CONTACT"
 
-			if cat "$UNSUSPENDREASONFILE" | grep -q modem; then
-				cat "$LASTSTATE" | xargs sxmo_screenlock.sh
-				sxmo_screenlock.sh crust
+			if grep -q modem "$UNSUSPENDREASONFILE" && grep -q crust "$CACHEDIR/${FINISHEDCALLID}.laststate"; then
+				sleep 5 # maybe user just is too late
+				if [ "$(sxmo_screenlock.sh getCurState)" != "unlock" ]; then
+					sxmo_screenlock.sh crust
+				fi
 			fi
 		fi
 	done
@@ -135,6 +137,8 @@ checkforincomingcalls() {
 
 	[ -f "$CACHEDIR/${VOICECALLID}.monitoredcall" ] && return # prevent multiple rings
 	touch "$CACHEDIR/${VOICECALLID}.monitoredcall" #this signals that we handled the call
+
+	cat "$LASTSTATE" > "$CACHEDIR/${VOICECALLID}.laststate"
 
 	# Determine the incoming phone number
 	echo "sxmo_modemmonitor: Incoming Call:">&2
@@ -193,6 +197,13 @@ checkfornewtexts() {
 			"$XDG_CONFIG_HOME/sxmo/hooks/sms" "$CONTACTNAME" "$TEXT"
 		fi
 	done
+
+	if grep -q modem "$UNSUSPENDREASONFILE" && grep -q crust "$LASTSTATE"; then
+		sleep 5 # maybe user just is too late
+		if [ "$(sxmo_screenlock.sh getCurState)" != "unlock" ]; then
+			sxmo_screenlock.sh crust
+		fi
+	fi
 }
 
 initialmodemstatus() {

@@ -11,22 +11,26 @@ REDLED_PATH="/sys/class/leds/red:indicator/brightness"
 BLUELED_PATH="/sys/class/leds/blue:indicator/brightness"
 
 WAKEUPRTC="/sys/class/wakeup/wakeup1/active_count"
+MODEMUPRTC="/sys/class/wakeup/wakeup10/active_count"
 NETWORKRTCSCAN="/sys/module/8723cs/parameters/rtw_scan_interval_thr"
 
 OLD_RTC_WAKECOUNT="$XDG_RUNTIME_DIR/wakeup.rtc.count"
+OLD_MODEM_WAKECOUNT="$XDG_RUNTIME_DIR/wakeup.modem.count"
 
 saveAllEventCounts() {
 	cat "$WAKEUPRTC" > "$OLD_RTC_WAKECOUNT"
+	cat "$MODEMUPRTC" > "$OLD_MODEM_WAKECOUNT"
 	# TODO: add logic for modem wakeup
 }
 
 whichWake() {
 	if [ "$(cat $WAKEUPRTC)" -gt "$(cat $OLD_RTC_WAKECOUNT)" ] ; then
-	 echo "rtc"
-	# TODO: add logic for modem wakeup
+		echo "rtc"
+	elif [ "$(cat $MODEMUPRTC)" -gt "$(cat $OLD_MODEM_WAKECOUNT)" ] ; then
+		echo "modem"
 	else
-	 # button does not have a active count so if it's none of the above, it has to be the button
-	 echo "button"
+		# button does not have a active count so if it's none of the above, it has to be the button
+		echo "button"
 	fi
 }
 
@@ -146,7 +150,7 @@ elif [ "$1" = "crust" ] ; then
 	# TODO: Document UNSUSPENDREASONFILE
 	echo "nonrtc" > "$UNSUSPENDREASONFILE"
 
-	if [ -x "$XDG_CONFIG_HOME/sxmo/hooks/postwake" ]; then
+	if [ "$(whichWake)" = "button" ] && [ -x "$XDG_CONFIG_HOME/sxmo/hooks/postwake" ]; then
 		"$XDG_CONFIG_HOME/sxmo/hooks/postwake"
 	fi
 
@@ -175,7 +179,7 @@ elif [ "$1" = "rtc" ] ; then
 
 	if [ "$(whichWake)" = "rtc" ]; then
 		WAKEHOOK="$XDG_CONFIG_HOME/sxmo/hooks/rtcwake";
-	else
+	elif [ "$(whichWake)" = "button" ]; then
 		WAKEHOOK="$XDG_CONFIG_HOME/sxmo/hooks/postwake";
 	fi
 
