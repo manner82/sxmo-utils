@@ -63,11 +63,6 @@ updateLed() {
 	esac
 }
 
-if [ "$1" = "crust" ] && [ -n "$SXMO_RTCWAKEINTERVAL" ]; then
-	shift
-	set -- rtc "$SXMO_RTCWAKEINTERVAL" "$@"
-fi
-
 if [ "$1" = "lock" ] ; then
 	# always echo last state first so that user can use it in their hooks
 	# TODO: Document LASTSTATE
