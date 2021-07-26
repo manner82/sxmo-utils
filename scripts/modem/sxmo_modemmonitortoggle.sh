@@ -10,6 +10,9 @@
 # shellcheck source=scripts/core/sxmo_common.sh
 . "$(dirname "$0")/sxmo_common.sh"
 
+if [ "$1" = "restart" ]; then
+	"$(basename "$0")" off
+fi
 if [ "$1" = "reset" ]; then
 	#does a hard reset of the entire modem
 	echo "sxmo_modemmonitortoggle: forcing modem reset">&2

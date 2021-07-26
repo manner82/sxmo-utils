@@ -13,10 +13,21 @@ if [ -z "$LISGD_THRESHOLD_PRESSED" ]; then
 	LISGD_THRESHOLD_PRESSED=60
 fi
 
+output="$(
+	swaymsg -t get_outputs \
+		| jq -r '.[] | select(.name == "DSI-1") | {transform: .transform, width: .current_mode.width, height: .current_mode.height}' \
+		| sed "s|normal|0|"
+)"
+transform="$(printf %s "$output" | jq -r .transform)"
+width="$(printf %s "$output" | jq -r .width)"
+height="$(printf %s "$output" | jq -r .height)"
+orientation="$((transform / 90))"
+
 #-g format:
 #   fingers,swipe,edge,distance,command
 #order matters, only the first match gets executed
-lisgd "$@" -t "$LISGD_THRESHOLD" -T "$LISGD_THRESHOLD_PRESSED" \
+lisgd "$@" -o "$orientation" -h "$height" -w "$width" \
+	-t "$LISGD_THRESHOLD" -T "$LISGD_THRESHOLD_PRESSED" \
 	-g '1,DRUL,BR,*,sxmo_inputhandler.sh bottomrightcorner' \
 	-g '1,DLUR,BL,*,sxmo_inputhandler.sh bottomleftcorner' \
 	-g '1,ULDR,TL,*,sxmo_inputhandler.sh topleftcorner' \

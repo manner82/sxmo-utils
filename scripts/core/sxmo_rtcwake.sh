@@ -6,6 +6,9 @@
 REDLED_PATH="/sys/class/leds/red:indicator/brightness"
 BLUELED_PATH="/sys/class/leds/blue:indicator/brightness"
 
+SWAYSOCK="$(cat "$CACHEDIR"/sxmo.swaysock)"
+export SWAYSOCK
+
 finish() {
 	kill "$BLINKPID"
 
