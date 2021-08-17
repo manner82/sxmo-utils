@@ -10,11 +10,23 @@ current() {
 }
 
 next() {
-	printf %s "$(($(current)+1))"
+	value="$(($(current)+1))"
+	if [ "$value" -eq "$((${SXMO_WORKSPACE_WRAPPING:-4}+1))" ]; then
+		printf 1
+	else
+		printf %s "$value"
+	fi
 }
 
 previous() {
-	printf %s "$(($(current)-1))"
+	value="$(($(current)-1))"
+	if [ "$value" -lt 1 ]; then
+		if [ "${SXMO_WORKSPACE_WRAPPING:-4}" -ne 0 ]; then
+			printf %s "${SXMO_WORKSPACE_WRAPPING:-4}"
+		fi
+	else
+		printf %s "$value"
+	fi
 }
 
 case "$1" in
