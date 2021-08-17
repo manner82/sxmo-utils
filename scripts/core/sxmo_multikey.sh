@@ -12,6 +12,10 @@ else
 fi
 
 printf %s "$counter" > "$count_file"
+shift "$counter"
+if [ "$#" -eq 1 ]; then
+	last_action=1
+fi
 
 sleep "$threshold"
 
@@ -21,10 +25,18 @@ fi
 
 new_counter="$(cat "$count_file")"
 if [ "$counter" != "$new_counter" ]; then
-	exit
+	if [ -n "$last_action" ] && [ "$new_counter" -gt "$counter" ]; then
+		count_overflow=1
+	else
+		exit
+	fi
 fi
 
-shift "$counter"
-rm "$count_file"
 eval "$1"
+
+if [ -n "$count_overflow" ]; then
+	sleep "$threshold" # prevent too long long presses to chain
+fi
+
+rm "$count_file"
 
