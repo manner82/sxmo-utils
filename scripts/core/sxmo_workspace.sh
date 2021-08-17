@@ -10,21 +10,11 @@ current() {
 }
 
 next() {
-	value="$(($(current)+1))"
-	if [ "$value" -gt 4 ]; then
-		printf 1
-	else
-		printf %s "$value"
-	fi
+	printf %s "$(($(current)+1))"
 }
 
 previous() {
-	value="$(($(current)-1))"
-	if [ "$value" -lt 1 ]; then
-		printf 4
-	else
-		printf %s "$value"
-	fi
+	printf %s "$(($(current)-1))"
 }
 
 case "$1" in
