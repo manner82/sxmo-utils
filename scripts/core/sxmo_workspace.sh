@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# include common definitions
+# shellcheck source=scripts/core/sxmo_common.sh
+. "$(dirname "$0")/sxmo_common.sh"
+
 current() {
 	swaymsg -t get_outputs  | \
 		jq -r '.[] | select(.focused == true) | .current_workspace'
