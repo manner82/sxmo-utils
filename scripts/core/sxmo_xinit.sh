@@ -67,12 +67,13 @@ startsway() {
 }
 
 init() {
+	envvars
+	device_envvars # set device env vars here to allow potentially overriding envvars
+
 	# include common definitions
 	# shellcheck source=scripts/core/sxmo_common.sh
 	. "$(dirname "$0")/sxmo_common.sh"
 
-	envvars
-	device_envvars # set device env vars here to allow potentially overriding envvars
 	setupxdgdir
 	defaults
 	defaultconfigs
