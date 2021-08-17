@@ -57,14 +57,14 @@ exec sxmo_idle.sh start
 #
     # Start a terminal
     bindsym $mod+Return exec $term
-    bindsym --no-repeat XF86PowerOff exec sxmo_inputhandler.sh powerbutton_one
+    bindsym --no-repeat XF86PowerOff exec sxmo_multikey.sh powerbutton "sxmo_inputhandler.sh powerbutton_one" "sxmo_inputhandler.sh powerbutton_two" "sxmo_inputhandler.sh powerbutton_three"
     bindsym $mod+p exec sxmo_appmenu.sh
 
     # Lock sxmo
-    bindsym --no-repeat XF86AudioRaiseVolume exec sxmo_inputhandler.sh volup_one
+    bindsym --no-repeat XF86AudioRaiseVolume exec sxmo_multikey.sh volup "sxmo_inputhandler.sh volup_one" "sxmo_inputhandler.sh volup_two" "sxmo_inputhandler.sh volup_three"
 
     # Next workspace
-    bindsym --no-repeat XF86AudioLowerVolume exec sxmo_inputhandler.sh voldown_one
+    bindsym --no-repeat XF86AudioLowerVolume exec sxmo_multikey.sh voldown "sxmo_inputhandler.sh voldown_one" "sxmo_inputhandler.sh voldown_two" "sxmo_inputhandler.sh voldown_three"
 
     # Kill focused window
     bindsym $mod+Shift+q kill

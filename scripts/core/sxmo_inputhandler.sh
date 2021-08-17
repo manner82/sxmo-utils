@@ -9,6 +9,17 @@ ACTION="$1"
 # shellcheck source=scripts/core/sxmo_common.sh
 . "$(dirname "$0")/sxmo_common.sh"
 
+lock_screen() {
+	if [ "$SXMO_LOCK_SCREEN_OFF" = "1" ]; then
+		sxmo_screenlock.sh off
+	else
+		sxmo_screenlock.sh lock
+	fi
+	if [ "$SXMO_LOCK_SUSPEND" = "1" ]; then
+		sxmo_screenlock.sh crust
+	fi
+}
+
 XPROPOUT="$(sxmo_wm.sh focusedwindow)"
 WMCLASS="$(printf %s "$XPROPOUT" | grep app: | cut -d" " -f2- | tr '[:upper:]' '[:lower:]')"
 WMNAME="$(printf %s "$XPROPOUT" | grep title: | cut -d" " -f2- | tr '[:upper:]' '[:lower:]')"
@@ -18,18 +29,24 @@ if [ -x "$XDG_CONFIG_HOME"/sxmo/hooks/inputhandler ]; then
 	"$XDG_CONFIG_HOME"/sxmo/hooks/inputhandler "$WMCLASS" "$WMNAME" "$@" && exit
 fi
 
-case "$ACTION" in
-	"powerbutton_one")
-		if [ "$(sxmo_screenlock.sh getCurState)" = "unlock" ]; then
-			sxmo_screenlock.sh lock && sxmo_screenlock.sh crust
-		elif grep button "$UNSUSPENDREASONFILE" | grep -qv "power_shallowed"; then
-			printf "button;power_shallowed" > "$UNSUSPENDREASONFILE"
-		else
+if [ "$(sxmo_screenlock.sh getCurState)" != "unlock" ]; then
+	case "$ACTION" in
+		"volup_three")
+			sxmo_screenlock.sh crust
+			;;
+		"voldown_three")
+			if [ "$(sxmo_screenlock.sh getCurState)" = "lock" ]; then
+				sxmo_screenlock.sh off
+			else
+				lock_screen
+			fi
+			;;
+		"powerbutton_three")
 			sxmo_screenlock.sh unlock
-		fi
-		exit
-		;;
-esac
+			;;
+	esac
+	exit
+fi
 
 if pgrep -f bemenu > /dev/null; then
 	case "$ACTION" in
@@ -138,12 +155,44 @@ esac
 
 #standard handling
 case "$ACTION" in
+	"powerbutton_one")
+		if echo "$WMCLASS" | grep -i "megapixels"; then
+			sxmo_type.sh -k space
+		else
+			sxmo_keyboard.sh toggle
+		fi
+			exit 0
+		;;
+	"powerbutton_two")
+		sxmo_blinkled.sh blue && $TERMCMD "$SHELL"
+		exit 0
+		;;
+	"powerbutton_three")
+		sxmo_blinkled.sh blue && $BROWSER
+		exit 0
+		;;
 	"voldown_one")
 		swaymsg layout toggle splith splitv tabbed
 		exit
 		;;
+	"voldown_two")
+		swaymsg focus tiling
+		exit
+		;;
+	"voldown_three")
+		swaymsg kill
+		exit
+		;;
 	"volup_one")
 		sxmo_appmenu.sh
+		exit
+		;;
+	"volup_two")
+		sxmo_appmenu.sh sys
+		exit
+		;;
+	"volup_three")
+		sxmo_screenlock.sh lock
 		exit
 		;;
 	"rightleftcorner")
