@@ -51,10 +51,22 @@ exec sxmo_idle.sh start
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
 
-# enough for 4 multikeys long presses
+# repeat_delay how much time in milisec to consider it is hold pressed
+#    should be long enough to trigger simple click easily but
+#    should be short enough to trigger a repeat before the next threshold
+# repeat_rate then how much key per second should be triggered
+#    adapt it accordingly with the delay.
+#    prefer a lower but enough value
+# This is enough for 4 multikeys long presses
+# Power button
 input 0:0:axp20x-pek {
-	repeat_delay 300
-	repeat_rate 10
+	repeat_delay 200
+	repeat_rate 15
+}
+# Volume buttons
+input 1:1:1c21800.lradc {
+	repeat_delay 200
+	repeat_rate 15
 }
 
 ### Key bindings
