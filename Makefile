@@ -38,7 +38,8 @@ install: $(PROGRAMS)
 	install -D -m 0700 -t $(DESTDIR)/etc/sudoers.d/ configs/sudo/*
 
 	install -D -m 0644 -t $(DESTDIR)$(PREFIX)/share/applications/ configs/xdg/mimeapps.list
-	install -D -m 0644 -t $(DESTDIR)$(PREFIX)/share/wayland-sessions/ configs/applications/sxmo.desktop
+	install -D -m 0644 -t $(DESTDIR)$(PREFIX)/share/xsessions/ configs/applications/sxmo.desktop
+	install -D -m 0644 -t $(DESTDIR)$(PREFIX)/share/wayland-sessions/ configs/applications/swmo.desktop
 
 	install -D -m 0644 -t $(DESTDIR)/etc/sudoers.d/ configs/sudo/poweroff
 
