@@ -49,6 +49,21 @@ swayfocusedwindow() {
 		'
 }
 
+swayexec() {
+	swaymsg exec -- "$@"
+}
+
+swayexecwait() {
+	PIDFILE="$(mktemp)"
+	printf '"%s" & printf %%s "$!" > "%s"' "$*" "$PIDFILE" \
+		| xargs swaymsg exec -- sh -c
+	while : ; do
+		sleep 0.5
+		kill -0 "$(cat "$PIDFILE")" 2> /dev/null || break
+	done
+	rm "$PIDFILE"
+}
+
 guesswm() {
 	if [ -n "$SWAYSOCK" ]; then
 		printf "sway"
@@ -57,5 +72,6 @@ guesswm() {
 
 wm="$(guesswm)"
 
-echo "$wm$1" "$2"
-"$wm$1" "$2"
+action="$1"
+shift
+"$wm$action" "$@"
