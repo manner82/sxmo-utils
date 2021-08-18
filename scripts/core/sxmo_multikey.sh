@@ -15,6 +15,8 @@ printf %s "$counter" > "$count_file"
 shift "$counter"
 if [ "$#" -eq 1 ]; then
 	last_action=1
+elif [ "$#" -eq 0 ]; then
+	exit
 fi
 
 sleep "$threshold"
