@@ -285,7 +285,7 @@ case "$ACTION" in
 		exit 0
 		;;
 	"bottomleftcorner")
-		[ "$WMCLASS" = "null" ] && sxmo_screenlock.sh off || sxmo_screenlock.sh lock
+		[ -z "$WMCLASS" ] && sxmo_screenlock.sh off || sxmo_screenlock.sh lock
 		exit 0
 		;;
 	"bottomrightcorner")
