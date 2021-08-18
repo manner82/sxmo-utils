@@ -60,6 +60,7 @@ if sxmo_dmenu.sh isopen; then
 			;;
 		"powerbutton_one")
 			sxmo_type.sh -k Return
+			exit
 			;;
 	esac
 fi
