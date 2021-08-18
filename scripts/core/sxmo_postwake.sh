@@ -65,6 +65,8 @@ checkstate() {
 	finish
 }
 
+sxmo_wm.sh dpms off
+
 # call the user hook, but ensure we wait at least 5 seconds which is essential for
 # the unlock functionality to function well
 sleep 5 &
