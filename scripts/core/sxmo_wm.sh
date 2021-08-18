@@ -50,7 +50,7 @@ swayfocusedwindow() {
 }
 
 guesswm() {
-	if [ -n "$WAYLAND_DISPLAY" ]; then
+	if [ -n "$SWAYSOCK" ]; then
 		printf "sway"
 	fi
 }
