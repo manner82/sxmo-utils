@@ -51,11 +51,11 @@ fi
 if sxmo_dmenu.sh isopen; then
 	case "$ACTION" in
 		"volup_one")
-			sxmo_type.sh -k Page_Up
+			sxmo_type.sh -k Up
 			exit
 			;;
 		"voldown_one")
-			sxmo_type.sh -k Page_Down
+			sxmo_type.sh -k Down
 			exit
 			;;
 		"powerbutton_one")
