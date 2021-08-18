@@ -48,7 +48,7 @@ if [ "$(sxmo_screenlock.sh getCurState)" != "unlock" ]; then
 	exit
 fi
 
-if pgrep -f bemenu > /dev/null; then
+if sxmo_dmenu.sh isopen; then
 	case "$ACTION" in
 		"volup_one")
 			wtype -k Page_Up
@@ -236,11 +236,11 @@ case "$ACTION" in
 		exit 0
 		;;
 	"downtopcorner")
-		pidof bemenu || setsid -f sxmo_appmenu.sh &
+		sxmo_dmenu.sh isopen || sxmo_appmenu.sh &
 		exit 0
 		;;
 	"twodowntopcorner")
-		pidof bemenu || setsid -f sxmo_appmenu.sh sys &
+		sxmo_dmenu.sh isopen || sxmo_appmenu.sh sys &
 		exit 0
 		;;
 	"uptopcorner")
