@@ -137,7 +137,7 @@ update() {
 }
 
 # E.g. on first boot justs to make sure the bar comes in quickly
-update && sleep 1 && update && sleep 1
+update
 
 while :
 do
