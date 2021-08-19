@@ -13,15 +13,34 @@ if [ -z "$LISGD_THRESHOLD_PRESSED" ]; then
 	LISGD_THRESHOLD_PRESSED=60
 fi
 
-output="$(
-	swaymsg -t get_outputs \
-		| jq -r '.[] | select(.name == "DSI-1") | {transform: .transform, width: .current_mode.width, height: .current_mode.height}' \
-		| sed "s|normal|0|"
-)"
-transform="$(printf %s "$output" | jq -r .transform)"
-width="$(printf %s "$output" | jq -r .width)"
-height="$(printf %s "$output" | jq -r .height)"
-orientation="$((transform / 90))"
+case "$(sxmo_wm.sh)" in
+	sway)
+		output="$(
+			swaymsg -t get_outputs \
+				| jq -r '.[] | select(.name == "DSI-1") | {transform: .transform, width: .current_mode.width, height: .current_mode.height}' \
+				| sed "s|normal|0|"
+		)"
+		transform="$(printf %s "$output" | jq -r .transform)"
+		width="$(printf %s "$output" | jq -r .width)"
+		height="$(printf %s "$output" | jq -r .height)"
+		orientation="$((transform / 90))"
+		;;
+	dwm)
+		output="$(xrandr | grep DSI-1 | sed "s|.* \(\d\+\)x\(\d\+\)+.*|\1 \2|")"
+		width="$(printf %s "$output" | cut -d" " -f1)"
+		height="$(printf %s "$output" | cut -d" " -f2)"
+		case "$(xrandr | grep DSI-1 | cut -d' ' -f 5)" in
+			right) orientation=1;;
+			left) orientation=3;;
+			inverted) orientation=2;;
+			*) orientation=0;;
+		esac
+		if [ "$((orientation%2))" -ne 0 ]; then
+			tmp="$height"
+			height="$width"
+			width="$tmp"
+		fi
+esac
 
 #-g format:
 #   fingers,swipe,edge,distance,command

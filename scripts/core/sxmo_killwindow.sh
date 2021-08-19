@@ -4,4 +4,7 @@
 # shellcheck source=scripts/core/sxmo_common.sh
 . "$(dirname "$0")/sxmo_common.sh"
 
-swaymsg kill
+case "$(sxmo_wm.sh)" in
+	sway) swaymsg kill;;
+	xorg|dwm) xdotool windowkill "$(xdotool getactivewindow)";;
+esac

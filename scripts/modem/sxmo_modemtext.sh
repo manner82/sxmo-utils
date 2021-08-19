@@ -57,7 +57,7 @@ sendtextmenu() {
 	do
 		CONFIRM="$(
 			printf %b "$icon_edt Edit\n$icon_snd Send\n$icon_cls Cancel" |
-			dmenu -ix 1 -p "Confirm"
+			dmenu -i -p "Confirm"
 		)" || exit
 		if echo "$CONFIRM" | grep -q "Send"; then
 			(sxmo_modemsendsms.sh "$NUMBER" - < "$DRAFT") && \

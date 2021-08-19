@@ -6,12 +6,20 @@ if [ -z "$BEMENU_OPTS" ]; then
 	export BEMENU_OPTS='--fn "Monospace 11"'
 fi
 
+if [ "dwm" = "$(sxmo_wm.sh)" ]; then
+	if [ "$1" = isopen ]; then
+		exec pgrep dmenu > /dev/null
+	elif [ "$1" = close ]; then
+		exec pkill dmenu
+	else
+		exec dmenu -c -l "$(sxmo_rotate.sh isrotated && printf 7 || printf 23)" "$@"
+	fi
+fi
+
 if [ "$1" = isopen ]; then
-	pgrep bemenu > /dev/null
-	exit $?
+	exec pgrep bemenu > /dev/null
 elif [ "$1" = close ]; then
-	pkill bemenu
-	exit
+	exec pkill bemenu
 fi
 
 if [ "$TERMMODE" != "true" ]; then

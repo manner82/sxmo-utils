@@ -248,7 +248,7 @@ case "$ACTION" in
 		exit 0
 		;;
 	"uptopcorner")
-		pkill bemenu
+		sxmo_dmenu.sh close
 		dunstctl close-all
 		exit 0
 		;;

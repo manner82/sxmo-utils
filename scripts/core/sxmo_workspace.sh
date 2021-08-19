@@ -29,18 +29,38 @@ previous() {
 	fi
 }
 
-case "$1" in
-	next)
-		printf "workspace "
-		next;;
-	previous)
-		printf "workspace "
-		previous;;
-	move-next)
-		printf "move container to workspace "
-		next;;
-	move-previous)
-		printf "move container to workspace "
-		previous;;
-esac | xargs swaymsg
+sway() {
+	case "$1" in
+		next)
+			printf "workspace "
+			next;;
+		previous)
+			printf "workspace "
+			previous;;
+		move-next)
+			printf "move container to workspace "
+			next;;
+		move-previous)
+			printf "move container to workspace "
+			previous;;
+	esac | xargs swaymsg
+}
 
+dwm() {
+	case "$1" in
+		next)
+			xdotool key Super+Shift+r
+			;;
+		previous)
+			xdotool key Super+Shift+e
+			;;
+		move-next)
+			xdotool key Super+r
+			;;
+		move-previous)
+			xdotool key Super+e
+			;;
+	esac
+}
+
+"$(sxmo_wm.sh)" "$@"

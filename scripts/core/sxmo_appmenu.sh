@@ -248,9 +248,8 @@ programchoicesinit() {
 		"
 		WINNAME=Sxiv && return
 		;;
-	*foot* )
-		# St
-		# First we try to handle the app running inside st:
+	*foot*|*st* )
+		# First we try to handle the app running inside the terminal:
 		WMNAME="${1:-$(printf %s "$XPROPOUT" | grep title: | cut -d" " -f2- | tr '[:upper:]' '[:lower:]')}"
 		if echo "$WMNAME" | grep -i -E "(vi|vim|vis|nvim|neovim|kakoune)"; then
 			#Vim in foot
@@ -266,7 +265,7 @@ programchoicesinit() {
 				$icon_fnd Search           ^ 0 ^ sxmo_type -k Escape /
 				$icon_zmi Zoom in          ^ 1 ^ sxmo_type -k Prior
 				$icon_zmo Zoom out         ^ 1 ^ sxmo_type -k Next
-				$icon_mnu Foot menu          ^ 0 ^ sxmo_appmenu.sh foot
+				$icon_mnu Terminal menu    ^ 0 ^ sxmo_appmenu.sh $WMCLASS
 			"
 			WINNAME=Vim
 		elif echo "$WMNAME" | grep -i -w "nano"; then
@@ -281,7 +280,7 @@ programchoicesinit() {
 				$icon_cpy Copy complete   ^ 0 ^ sxmo_type -M Shift -M Ctrl i
 				$icon_zmi Zoom in         ^ 1 ^ sxmo_type -k Prior
 				$icon_zmo Zoom out        ^ 1 ^ sxmo_type -k Next
-				$icon_mnu Foot menu         ^ 0 ^ sxmo_appmenu.sh foot
+				$icon_mnu Terminal menu   ^ 0 ^ sxmo_appmenu.sh $WMCLASS
 			"
 			WINNAME=Nano
 		elif echo "$WMNAME" | grep -i -w "tuir"; then
@@ -299,7 +298,7 @@ programchoicesinit() {
 				$icon_cls Quit          ^ 0 ^ sxmo_type q
 				$icon_zmi Zoom in       ^ 1 ^ sxmo_type -k Prior
 				$icon_zmo Zoom out      ^ 1 ^ sxmo_type -k Next
-				$icon_mnu Foot menu       ^ 0 ^ sxmo_appmenu.sh foot
+				$icon_mnu Terminal menu ^ 0 ^ sxmo_appmenu.sh $WMCLASS
 			"
 			WINNAME=tuir
 		elif echo "$WMNAME" | grep -i -w "w3m"; then
@@ -315,7 +314,7 @@ programchoicesinit() {
 				$icon_itm Previous tab    ^ 1 ^ sxmo_type -k braceLeft
 				$icon_zmi Zoom in          ^ 1 ^ sxmo_type -k Prior
 				$icon_zmo Zoom out          ^ 1 ^ sxmo_type -k Next
-				$icon_mnu Foot menu         ^ 0 ^ sxmo_appmenu.sh foot
+				$icon_mnu Terminal menu   ^ 0 ^ sxmo_appmenu.sh $WMCLASS
 			"
 			WINNAME=w3m
 		elif echo "$WMNAME" | grep -i -w "ncmpcpp"; then
@@ -331,7 +330,7 @@ programchoicesinit() {
 				$icon_rld Toggle repeat   ^ 0 ^ sxmo_type r
 				$icon_sfl Toggle random   ^ 0 ^ sxmo_type z
 				$icon_itm Toggle consume  ^ 0 ^ sxmo_type R
-				$icon_mnu Foot menu         ^ 0 ^ sxmo_appmenu.sh foot
+				$icon_mnu Terminal menu   ^ 0 ^ sxmo_appmenu.sh $WMCLASS
 			"
 			WINNAME=ncmpcpp
 		elif echo "$WMNAME" | grep -i -w "aerc"; then
@@ -355,7 +354,7 @@ programchoicesinit() {
 				$icon_zmo Zoom out        ^ 1 ^ sxmo_type -M Ctrl -k Minus
 				$icon_aru Scroll up       ^ 1 ^ sxmo_type -k Prior
 				$icon_ard Scroll down     ^ 1 ^ sxmo_type -k Next
-				$icon_mnu Foot menu       ^ 0 ^ sxmo_appmenu.sh foot
+				$icon_mnu Terminal menu ^ 0 ^ sxmo_appmenu.sh $WMCLASS
 			"
 			WINNAME=less
 		elif echo "$WMNAME" | grep -i -w "weechat"; then
@@ -367,7 +366,7 @@ programchoicesinit() {
 				$icon_trm Buffer                  ^ 0 ^ sxmo_type '/buffer '
 				$icon_aru Scroll up               ^ 1 ^ sxmo_type -k Prior
 				$icon_ard Scroll down             ^ 1 ^ sxmo_type -k Next
-				$icon_mnu Foot menu       ^ 0 ^ sxmo_appmenu.sh foot
+				$icon_mnu Terminal menu ^ 0 ^ sxmo_appmenu.sh $WMCLASS
 			"
 			WINNAME=weechat
 		elif echo "$WMNAME" | grep -i -w "sms"; then
@@ -378,7 +377,7 @@ programchoicesinit() {
 				$icon_phn Call           ^ 0 ^ sxmo_modemdial.sh $number
 				$icon_aru Scroll up       ^ 1 ^ sxmo_type -M Shift -M Ctrl b
 				$icon_ard Scroll down     ^ 1 ^ sxmo_type -M Shift -M Ctrl f
-				$icon_mnu Foot menu       ^ 0 ^ sxmo_appmenu.sh foot
+				$icon_mnu Terminal menu ^ 0 ^ sxmo_appmenu.sh $WMCLASS
 			"
 			WINNAME=sms
 		elif echo "$WMNAME" | grep -i -w "cmus"; then
@@ -392,24 +391,68 @@ programchoicesinit() {
 				$icon_prv Previous track  ^ 0 ^ cmus-remote -r
 				$icon_rld Toggle repeat   ^ 0 ^ cmus-remote -R
 				$icon_sfl Toggle random   ^ 0 ^ cmus-remote -S
-				$icon_mnu Foot menu         ^ 0 ^ sxmo_appmenu.sh foot
+				$icon_mnu Terminal menu   ^ 0 ^ sxmo_appmenu.sh $WMCLASS
 			"
 			WINNAME=cmus
 		else
-			CHOICES="
-				$icon_itm Type complete   ^ 0 ^ sxmo_type -M Shift -M Ctrl u
-				$icon_cpy Copy complete   ^ 0 ^ sxmo_type -M Shift -M Ctrl i
-				$icon_pst Paste           ^ 0 ^ sxmo_type -M Shift -M Ctrl v
-				$icon_zmi Zoom in         ^ 1 ^ sxmo_type -M Ctrl +
-				$icon_zmo Zoom out        ^ 1 ^ sxmo_type -M Ctrl -k Minus
-				$icon_aru Scroll up       ^ 1 ^ sxmo_type -k Prior
-				$icon_ard Scroll down     ^ 1 ^ sxmo_type -k Next
-				$icon_a2x Invert          ^ 1 ^ sxmo_type -M Shift -M Ctrl x
-				$icon_kbd Hotkeys         ^ 0 ^ sxmo_appmenu.sh foothotkeys
-			"
-			WINNAME=Foot
+			# Now we fallback to the default terminal menu
+			case "$WMCLASS" in
+				*st*)
+					STSELMODEON="$(
+						echo "$XPROPOUT" | grep -E '^_ST_SELMODE.+=' | cut -d= -f2 | tr -d ' '
+					)"
+					CHOICES="
+						$icon_itm Type complete   ^ 0 ^ sxmo_type -M Ctrl -M Shift -k u
+						$icon_cpy Copy complete   ^ 0 ^ sxmo_type -M Ctrl -M Shift -k i
+						$icon_itm Selmode $(
+						  [ "$STSELMODEON" = 1 ] &&
+						  printf %b 'On → Off' ||
+						  printf %b 'Off → On'
+						  printf %b '^ 0 ^ sxmo_type -M Ctrl -M Shift -k s'
+						)
+						$([ "$STSELMODEON" = 1 ] && echo 'Copy selection ^ 0 ^ sxmo_type -M Ctrl -M Shift -k c')
+						$icon_pst Paste           ^ 0 ^ sxmo_type -M Ctrl -M Shift -k v
+						$icon_zmi Zoom in         ^ 1 ^ sxmo_type -M Ctrl -M Shift -k Prior
+						$icon_zmo Zoom out        ^ 1 ^ sxmo_type -M Ctrl -M Shift -k Next
+						$icon_aru Scroll up       ^ 1 ^ sxmo_type -M Ctrl -M Shift -k b
+						$icon_ard Scroll down     ^ 1 ^ sxmo_type -M Ctrl -M Shift -k f
+						$icon_a2x Invert          ^ 1 ^ sxmo_type -M Ctrl -M Shift -k x
+						$icon_kbd Hotkeys         ^ 0 ^ sxmo_appmenu.sh sthotkeys
+					"
+					WINNAME=St
+					;;
+				*foot*)
+					CHOICES="
+						$icon_itm Type complete   ^ 0 ^ sxmo_type -M Shift -M Ctrl u
+						$icon_cpy Copy complete   ^ 0 ^ sxmo_type -M Shift -M Ctrl i
+						$icon_pst Paste           ^ 0 ^ sxmo_type -M Shift -M Ctrl v
+						$icon_zmi Zoom in         ^ 1 ^ sxmo_type -M Ctrl +
+						$icon_zmo Zoom out        ^ 1 ^ sxmo_type -M Ctrl -k Minus
+						$icon_aru Scroll up       ^ 1 ^ sxmo_type -k Prior
+						$icon_ard Scroll down     ^ 1 ^ sxmo_type -k Next
+						$icon_a2x Invert          ^ 1 ^ sxmo_type -M Shift -M Ctrl x
+						$icon_kbd Hotkeys         ^ 0 ^ sxmo_appmenu.sh sthotkeys
+					"
+					WINNAME=Foot
+					;;
+			esac
 		fi
 		;;
+	*sthotkeys* )
+		#  St hotkeys
+		CHOICES="
+			Send Ctrl-C      ^ 0 ^ sxmo_type -M Ctrl -k c
+			Send Ctrl-Z      ^ 0 ^ sxmo_type -M Ctrl -k z
+			Send Ctrl-L      ^ 0 ^ sxmo_type -M Ctrl -k l
+			Send Ctrl-D      ^ 0 ^ sxmo_type -M Ctrl -k d
+			Send Ctrl-A      ^ 0 ^ sxmo_type -M Ctrl -k a
+			Send Ctrl-B      ^ 0 ^ sxmo_type -M Ctrl -k b
+			Send ESC:w       ^ 0 ^ sxmo_type -k Escape -M Shift -k semicolon -m Shift -k w -k Return
+			Send ESC:wq      ^ 0 ^ sxmo_type -k Escape -M Shift -k semicolon -m Shift -k w -k q -k Return
+			Send ESC:wq!     ^ 0 ^ sxmo_type -k Escape -M Shift -k semicolon -m Shift -k q -k exclam -k Return
+		"
+		WINNAME=St
+	;;
 	*netsurf* )
 		# Netsurf
 		CHOICES="
@@ -560,7 +603,7 @@ mainloop() {
 	getprogchoices "$ARGS"
 	echo "$PROGCHOICES" |
 	cut -d'^' -f1 |
-	dmenu -ix "$DMENUIDX" -p "$WINNAME" | (
+	dmenu -i -p "$WINNAME" | (
 		PICKED="$(cat)"
 		echo "$PICKED" | grep . || quit
 		LOOP="$(echo "$PROGCHOICES" | grep -m1 -F "$PICKED" | cut -d '^' -f2)"

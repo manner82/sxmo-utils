@@ -133,7 +133,11 @@ update() {
 	TIME="$(date +%R)"
 
 	BAR="$(echo "${CALLINFO} ${MODEMMON} ${WIRELESS} ${VPN} ${AUDIOSYMBOL}${VOLUMESYMBOL} ${BATSTATUS} ${TIME}" | sed 's| \+| |g')"
-	printf "%s\n" "$BAR"
+
+	case "$(sxmo_wm.sh)" in
+		sway) printf "%s\n" "$BAR";;
+		dwm) xsetroot -name "$BAR";;
+	esac
 }
 
 # E.g. on first boot justs to make sure the bar comes in quickly
