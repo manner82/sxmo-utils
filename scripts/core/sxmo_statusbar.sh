@@ -141,6 +141,6 @@ update
 
 while :
 do
-	update
 	sleep 30 & wait
+	update
 done
