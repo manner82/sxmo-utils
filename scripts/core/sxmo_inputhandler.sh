@@ -289,7 +289,7 @@ case "$ACTION" in
 		exit 0
 		;;
 	"bottomleftcorner")
-		[ -z "$WMCLASS" ] && sxmo_screenlock.sh off || sxmo_screenlock.sh lock
+		lock_screen
 		exit 0
 		;;
 	"bottomrightcorner")
