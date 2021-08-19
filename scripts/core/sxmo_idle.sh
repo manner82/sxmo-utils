@@ -77,10 +77,13 @@ configmenu() {
 	target="$(printf %s "$PICKED" | cut -d" " -f1)"
 	old_value="$(printf %s "$PICKED" | cut -d" " -f2)"
 
-	new_value="$(
-		printf "" | \
-			sxmo_dmenu_with_kb.sh -p "New value"
-	)"
+	while [ -z "$new_value" ]; do
+		new_value="$(
+			printf "" | \
+				sxmo_dmenu_with_kb.sh -p "New value"
+		)"
+		[ "$new_value" -gt 5 ] || unset new_value
+	done
 
 	sed -i "s|$target $old_value|$target $new_value|" "$CACHEDIR"/sxmo.idle.state
 }
