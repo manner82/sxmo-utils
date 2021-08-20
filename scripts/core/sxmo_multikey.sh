@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ "$1" = clear ]; then
+	rm -f "$XDG_RUNTIME_DIR"/sxmo.multikey.count.*
+	exit
+fi
+
 identifier="$1"
 threshold="${SXMO_THRESHOLD:-0.30}"
 
