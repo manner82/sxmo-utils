@@ -1,32 +1,40 @@
 #!/usr/bin/env sh
 
-TERMMODE=$([ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] && echo "true")
+# We still use dmenu in dwm|worgs cause pointer/touch events
+# are not implemented yet in the X11 library of bemenu
 
-if [ -z "$BEMENU_OPTS" ]; then
-	export BEMENU_OPTS='--fn "Monospace 11"'
-fi
+case "$1" in
+	isopen)
+		case "$(sxmo_wm.sh)" in
+			sway|ssh)
+				exec pgrep bemenu
+				;;
+			xorg|dwm)
+				exec pgrep dmenu
+				;;
+		esac
+		;;
+	close)
+		case "$(sxmo_wm.sh)" in
+			sway|ssh)
+				exec pkill bemenu
+				;;
+			xorg|dwm)
+				exec pkill dmenu
+				;;
+		esac
+		;;
+esac > /dev/null
 
-if [ "dwm" = "$(sxmo_wm.sh)" ]; then
-	if [ "$1" = isopen ]; then
-		exec pgrep dmenu > /dev/null
-	elif [ "$1" = close ]; then
-		exec pkill dmenu
-	else
+case "$(sxmo_wm.sh)" in
+	sway)
+		exec bemenu --scrollbar autohide -n -w -c -l "$(sxmo_rotate.sh isrotated && printf 7 ||  printf 23)" "$@"
+		;;
+	xorg|dwm)
 		exec dmenu -c -l "$(sxmo_rotate.sh isrotated && printf 7 || printf 23)" "$@"
-	fi
-fi
-
-if [ "$1" = isopen ]; then
-	exec pgrep bemenu > /dev/null
-elif [ "$1" = close ]; then
-	exec pkill bemenu
-fi
-
-if [ "$TERMMODE" != "true" ]; then
-	set -- bemenu --scrollbar autohide -n -w -c -l "$(sxmo_rotate.sh isrotated && printf 7 ||  printf 23)" "$@"
-else
-	export BEMENU_BACKEND=curses
-	set -- bemenu "$@"
-fi
-
-exec "$@"
+		;;
+	ssh)
+		export BEMENU_BACKEND=curses
+		exec bemenu "$@"
+		;;
+esac

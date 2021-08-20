@@ -116,6 +116,10 @@ guesswm() {
 		printf "sway"
 	elif [ -n "$DISPLAY" ]; then
 		printf "dwm"
+	elif [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+		printf "ssh"
+	else
+		printf "none"
 	fi
 }
 
