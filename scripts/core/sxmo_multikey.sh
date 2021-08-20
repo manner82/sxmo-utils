@@ -28,7 +28,7 @@ if [ "$counter" != "$(cat "$count_file")" ]; then
 	exit
 fi
 
-sh -c "$1" &
+eval "$1" &
 
 if [ "$#" -eq 1 ]; then
 	sleep "$threshold" # prevent holded presses to chain
