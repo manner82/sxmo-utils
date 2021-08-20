@@ -111,6 +111,14 @@ swayexecwait() {
 	rm "$PIDFILE"
 }
 
+xorgexec() {
+	"$@" &
+}
+
+xorgexecwait() {
+	exec "$@"
+}
+
 guesswm() {
 	if [ -n "$SWAYSOCK" ]; then
 		printf "sway"
