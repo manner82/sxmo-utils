@@ -2,11 +2,6 @@
 
 wm="$(sxmo_wm.sh)"
 
-set -x
-
-sudo rc-service tinydm restart # prevent too much loop
-sleep 2
-
 case "$(realpath /var/lib/tinydm/default-session.desktop)" in
 	/usr/share/wayland-sessions/swmo.desktop)
 		sudo tinydm-set-session -f -s /usr/share/xsessions/sxmo.desktop
@@ -16,4 +11,4 @@ case "$(realpath /var/lib/tinydm/default-session.desktop)" in
 		;;
 esac
 
-pkill "$wm"
+sudo reboot
