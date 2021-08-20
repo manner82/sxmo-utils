@@ -25,7 +25,8 @@ fi
 if [ "$TERMMODE" != "true" ]; then
 	set -- bemenu --scrollbar autohide -n -w -c -l "$(sxmo_rotate.sh isrotated && printf 7 ||  printf 23)" "$@"
 else
-	set -- BEMENU_BACKEND=curses bemenu "$@"
+	export BEMENU_BACKEND=curses
+	set -- bemenu "$@"
 fi
 
 exec "$@"
