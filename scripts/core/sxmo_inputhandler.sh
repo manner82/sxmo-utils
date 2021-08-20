@@ -184,7 +184,7 @@ case "$ACTION" in
 		exit
 		;;
 	"voldown_three")
-		swaymsg kill
+		sxmo_killwindow.sh
 		exit
 		;;
 	"volup_one")
