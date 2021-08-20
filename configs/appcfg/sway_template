@@ -76,14 +76,14 @@ exec sxmo_multikey.sh clear
 #
     # Start a terminal
     bindsym $mod+Return exec $term
-    bindsym XF86PowerOff exec sxmo_multikey.sh powerbutton "sxmo_inputhandler.sh powerbutton_one" "sxmo_inputhandler.sh powerbutton_two" "sxmo_inputhandler.sh powerbutton_three"
+    bindsym --input-device=0:0:axp20x-pek XF86PowerOff exec sxmo_multikey.sh powerbutton "sxmo_inputhandler.sh powerbutton_one" "sxmo_inputhandler.sh powerbutton_two" "sxmo_inputhandler.sh powerbutton_three"
     bindsym $mod+p exec sxmo_appmenu.sh
 
     # Lock sxmo
-    bindsym XF86AudioRaiseVolume exec sxmo_multikey.sh volup "sxmo_inputhandler.sh volup_one" "sxmo_inputhandler.sh volup_two" "sxmo_inputhandler.sh volup_three"
+    bindsym --input-device=1:1:1c21800.lradc XF86AudioRaiseVolume exec sxmo_multikey.sh volup "sxmo_inputhandler.sh volup_one" "sxmo_inputhandler.sh volup_two" "sxmo_inputhandler.sh volup_three"
 
     # Next workspace
-    bindsym XF86AudioLowerVolume exec sxmo_multikey.sh voldown "sxmo_inputhandler.sh voldown_one" "sxmo_inputhandler.sh voldown_two" "sxmo_inputhandler.sh voldown_three"
+    bindsym --input-device=1:1:1c21800.lradc XF86AudioLowerVolume exec sxmo_multikey.sh voldown "sxmo_inputhandler.sh voldown_one" "sxmo_inputhandler.sh voldown_two" "sxmo_inputhandler.sh voldown_three"
 
     # Kill focused window
     bindsym $mod+Shift+q kill
