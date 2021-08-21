@@ -10,7 +10,7 @@ fi
 OUTPUT="$(cat | sxmo_dmenu.sh "$@")"
 exitcode=$?
 
-if [ -n "$wasopen" ]; then
+if [ -z "$wasopen" ]; then
 	sxmo_keyboard.sh close
 fi
 
