@@ -317,8 +317,8 @@ mainloop() {
 					sleep 3
 					if [ "$TRIES" -eq 10 ]; then
 						echo failed > "$MODEMSTATEFILE"
-						echo "sxmo_modemmonitor: forcing modem reset">&2
-						sxmo_modemmonitortoggle.sh reset #will kill the modemmonitor too
+						echo "sxmo_modemmonitor: forcing modem restart">&2
+						sxmo_modemmonitortoggle.sh restart #will kill the modemmonitor too
 						break
 					fi
 				fi
