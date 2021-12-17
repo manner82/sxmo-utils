@@ -52,6 +52,8 @@ install: $(PROGRAMS)
 	mkdir -p $(DESTDIR)/etc/NetworkManager/dispatcher.d
 	install -D -m 0755 -T configs/networkmanager/updatestatusbar.sh $(DESTDIR)/etc/NetworkManager/dispatcher.d/10-updatestatusbar.sh
 
+	install -D -m 0644 -T configs/appcfg/mpv_input.conf $(DESTDIR)/etc/mpv/input.conf
+
 	# Bin
 	install -D -t $(DESTDIR)$(PREFIX)/bin scripts/*/*
 
