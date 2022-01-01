@@ -61,6 +61,16 @@ case "$WMCLASS" in
 		CHOICES="
 			$icon_aru Brightness               ^ 1 ^ sxmo_brightness.sh up
 			$icon_ard Brightness               ^ 1 ^ sxmo_brightness.sh down
+			$(
+				if [ "$SXMO_WM" = sway ] && command -v gammastep >/dev/null; then
+					printf %b "$icon_cfg Night mode "
+					if pgrep -f gammastep > /dev/null; then
+						printf %b "$icon_ton ^ 1 ^ pkill -9 gammastep"
+					else
+						printf %b "$icon_tof ^ 1 ^ gammastep -O 4000 &"
+					fi
+				fi
+			)
 			$icon_cfg Touch $(
 				sxmo_wm.sh inputevent touchscreen | grep -q on && \
 				printf %b "$icon_ton ^ 1 ^ sxmo_wm.sh inputevent touchscreen off" || \

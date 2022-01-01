@@ -49,6 +49,8 @@ sxmo_jobs.sh start statusbar_periodics sxmo_run_aligned.sh 60 \
 # load some other little things here too.
 case "$SXMO_WM" in
 	sway)
+    # To turn on "Night mode automatically", uncomment this
+		gammastep -O 4000 &
 		superctl start mako
 		superctl start sxmo_wob
 		superctl start sxmo_menumode_toggler
