@@ -22,6 +22,8 @@ sleep 2 # let time to superd to start correctly
 
 case "$SXMO_WM" in
 	sway)
+    # To turn on "Night mode automatically", uncomment this
+		gammastep -O 4000 &
 		superctl start mako
 		superctl start sxmo_wob
 		superctl start sxmo_menumode_toggler
