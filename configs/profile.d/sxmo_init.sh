@@ -60,6 +60,14 @@ _sxmo_load_environments() {
 	[ -f "$deviceprofile" ] && . "$deviceprofile"
 }
 
+_sxmo_check_and_move_config() {
+	# if user needs to migrate configs, move them and alert the user
+	REQUIRED_VER="$(cat /usr/share/sxmo/configversion)"
+	[ -f "$XDG_CONFIG_HOME/sxmo/configversion" ] && CUR_VER="$(cat $XDG_CONFIG_HOME/sxmo/configversion)"
+	[ -f "$XDG_CONFIG_HOME/sxmo/configversion" ] || CUR_VER=""
+	[ "$REQUIRED_VER" != "$CUR_VER" ] && mv "$XDG_CONFIG_HOME/sxmo" "$XDG_CONFIG_HOME/sxmo.old-$CUR_VER"
+}
+
 _sxmo_grab_session() {
 	if ! _sxmo_is_running; then
 		unset SWAYSOCK
