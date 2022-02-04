@@ -23,6 +23,10 @@ pangodraw() {
 	# for instance, you can show details about the activated network connections:
 	#nmcli -w 3 -c no -p -f DEVICE,STATE,NAME,TYPE con show | grep activated | sed 's/activated/   /' | sed '/^\s*$/d' 2> /dev/null
 	# make sure to end with an empty line, to denote the end of data for wayout
+	printf "<small><small><small><small><small><small>"
+	khal list --once --format="{title}" now 7d 2>/dev/null
+	printf "</small></small></small></small></small></small>"
+	echo
 	echo
 }
 
@@ -40,6 +44,7 @@ if [ -n "$WAYLAND_DISPLAY" ] && command -v wayout > /dev/null; then
 		--foreground-color "#ffffff" \
 		--fontsize "60" \
 		--height 500  \
+		--textalign center \
 		--feed-par &
 	WAYOUT="$!"
 	wait
