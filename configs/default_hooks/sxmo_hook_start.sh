@@ -76,11 +76,12 @@ superctl start sxmo_hook_lisgd
 
 if [ "$(command -v ModemManager)" ]; then
 	# Turn on the dbus-monitors for modem-related tasks
-	superctl start sxmo_modemmonitor
+	# superctl start sxmo_modemmonitor
 
 	# place a wakelock for 120s to allow the modem to fully warm up (eg25 +
 	# elogind/systemd would do this for us, but we don't use those.)
-	sxmo_wakelock.sh lock modem_warming_up 120s
+	# sxmo_wakelock.sh lock modem_warming_up 120s
+  true
 fi
 
 # Start the desktop widget (e.g. clock)
@@ -101,13 +102,17 @@ superctl start sxmo_soundmonitor
 # Play a funky startup tune if you want (disabled by default)
 #mpv --quiet --no-video ~/welcome.ogg &
 
+if false; then
 # mmsd and vvmd
 if [ -f "${SXMO_MMS_BASE_DIR:-"$HOME"/.mms/modemmanager}/mms" ]; then
-	superctl start mmsd-tng
+	# superctl start mmsd-tng
+  true
 fi
 
 if [ -f "${SXMO_VVM_BASE_DIR:-"$HOME"/.vvm/modemmanager}/vvm" ]; then
-	superctl start vvmd
+	# superctl start vvmd
+  true
+fi
 fi
 
 # add some warnings if things are not setup correctly
@@ -118,3 +123,4 @@ deviceprofile="$(command -v "sxmo_deviceprofile_$SXMO_DEVICE_NAME.sh")"
 
 sxmo_migrate.sh state || sxmo_notify_user.sh --urgency=critical \
 	"Config needs migration" "$? file(s) in your sxmo configuration are out of date and disabled - using defaults until you migrate (run sxmo_migrate.sh)"
+
