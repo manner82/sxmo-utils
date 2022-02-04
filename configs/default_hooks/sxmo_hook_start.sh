@@ -50,11 +50,13 @@ case "$SXMO_WM" in
 esac
 
 if [ -f "${SXMO_MMS_BASE_DIR:-"$HOME"/.mms/modemmanager}/mms" ]; then
-	superctl start mmsd
+	# superctl start mmsd
+  true
 fi
 
 if [ -f "${SXMO_VVM_BASE_DIR:-"$HOME"/.vvm/modemmanager}/vvm" ]; then
-	superctl start vvmd
+	# superctl start vvmd
+  true
 fi
 
 # Start the desktop widget (e.g. clock)
@@ -81,13 +83,17 @@ superctl start pipewire
 superctl start pipewire-pulse
 superctl start wireplumber
 
+if false; then
 (
 	sleep 5 # let some time to pipewire
 	superctl start callaudiod
 
 	# Turn on the dbus-monitors for modem-related tasks
 	sxmo_daemons.sh start modem_monitor sxmo_modemmonitor.sh
+
 ) &
+fi
 
 sxmo_migrate.sh state || sxmo_notify_user.sh --urgency=critical \
 	"Config needs migration" "$? file(s) in your sxmo configuration are out of date and disabled - using defaults until you migrate (run sxmo_migrate.sh)"
+
