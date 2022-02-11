@@ -10,6 +10,10 @@
 echo "unlock" > "$SXMO_STATE"
 [ -f "$SXMO_UNSUSPENDREASONFILE" ] && rm -f "$SXMO_UNSUSPENDREASONFILE"
 
+if grep -q "fbcon=rotate:1" /proc/cmdline; then
+	sxmo_rotate.sh
+fi
+
 # Create xdg user directories, such as ~/Pictures
 xdg-user-dirs-update
 
@@ -96,4 +100,3 @@ fi
 
 sxmo_migrate.sh state || sxmo_notify_user.sh --urgency=critical \
 	"Config needs migration" "$? file(s) in your sxmo configuration are out of date and disabled - using defaults until you migrate (run sxmo_migrate.sh)"
-
