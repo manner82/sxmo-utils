@@ -8,6 +8,10 @@
 # shellcheck source=scripts/core/sxmo_common.sh
 . sxmo_common.sh
 
+if grep -q "fbcon=rotate:1" /proc/cmdline; then
+	sxmo_rotate.sh
+fi
+
 # Create xdg user directories, such as ~/Pictures
 xdg-user-dirs-update
 
