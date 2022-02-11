@@ -6,6 +6,10 @@
 # shellcheck source=scripts/core/sxmo_common.sh
 . sxmo_common.sh
 
+if grep -q "fbcon=rotate:1" /proc/cmdline; then
+	sxmo_rotate.sh
+fi
+
 # Create xdg user directories, such as ~/Pictures
 xdg-user-dirs-update
 
@@ -123,4 +127,3 @@ deviceprofile="$(command -v "sxmo_deviceprofile_$SXMO_DEVICE_NAME.sh")"
 
 sxmo_migrate.sh state || sxmo_notify_user.sh --urgency=critical \
 	"Config needs migration" "$? file(s) in your sxmo configuration are out of date and disabled - using defaults until you migrate (run sxmo_migrate.sh)"
-
