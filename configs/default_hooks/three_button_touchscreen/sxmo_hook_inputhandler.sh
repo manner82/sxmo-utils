@@ -26,7 +26,7 @@ lock_screen_action() {
 				state=screenoff
 				;;
 			screenoff)
-				state=lock
+				state=unlock
 				;;
 			lock)
 				state=unlock
@@ -47,16 +47,15 @@ sxmo_debug "STATE: $(cat "$SXMO_STATE") ACTION: $ACTION WMCLASS: $WMCLASS WMNAME
 if ! grep -q unlock "$SXMO_STATE"; then
 	case "$ACTION" in
 		"powerbutton_one")
-			lock_screen_action
 			;;
 		"powerbutton_two")
-			lock_screen_action 2
+			lock_screen_action
 			;;
 		"powerbutton_three")
 			if grep -q proximity "$SXMO_STATE"; then
 				stop_proximity_lock
 			else
-				lock_screen_action 2
+				lock_screen_action
 			fi
 			;;
 		"voldown_one")
@@ -292,20 +291,18 @@ case "$ACTION" in
 	"powerbutton_one")
 		if echo "$WMCLASS" | grep -i "megapixels"; then
 			sxmo_type.sh -k space
-		else
-			lock_screen_action
 		fi
 		exit 0
 		;;
 	"powerbutton_two")
-		lock_screen_action 2
+		sxmo_terminal.sh
 		exit 0
 		;;
 	"powerbutton_three")
 		if grep -q proximity "$SXMO_STATE"; then
 			stop_proximity_lock
 		else
-			sxmo_terminal.sh
+		  lock_screen_action
 		fi
 		exit 0
 		;;
@@ -445,6 +442,7 @@ case "$ACTION" in
 		fi
 		sxmo_dmenu.sh close
 		sxmo_hook_screenoff.sh
+		sxmo_suspend.sh
 		exit 0
 		;;
 	"bottomrightcorner")
