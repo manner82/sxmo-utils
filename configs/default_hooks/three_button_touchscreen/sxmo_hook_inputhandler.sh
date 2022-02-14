@@ -22,7 +22,7 @@ lock_screen_action() {
 				state=screenoff
 				;;
 			screenoff)
-				state=lock
+				state=unlock
 				;;
 			lock)
 				state=unlock
@@ -43,10 +43,9 @@ sxmo_debug "ACTION: $ACTION WMCLASS: $WMCLASS WMNAME: $WMNAME XPROPOUT: $XPROPOU
 if ! grep -q unlock "$SXMO_STATE"; then
 	case "$ACTION" in
 		"powerbutton_one")
-			lock_screen_action
 			;;
 		"powerbutton_two"|"powerbutton_three")
-			lock_screen_action 2
+			lock_screen_action
 			;;
 		"voldown_one")
 			sxmo_audio.sh vol down 5
@@ -239,17 +238,15 @@ case "$ACTION" in
 	"powerbutton_one")
 		if echo "$WMCLASS" | grep -i "megapixels"; then
 			sxmo_type.sh -k space
-		else
-			lock_screen_action
 		fi
 		exit 0
 		;;
 	"powerbutton_two")
-		lock_screen_action 2
+		sxmo_terminal.sh
 		exit 0
 		;;
 	"powerbutton_three")
-		sxmo_terminal.sh
+		lock_screen_action
 		exit 0
 		;;
 	"voldown_one")
@@ -385,6 +382,7 @@ case "$ACTION" in
 	"bottomleftcorner")
 		sxmo_dmenu.sh close
 		sxmo_hook_screenoff.sh
+		sxmo_suspend.sh
 		exit 0
 		;;
 	"bottomrightcorner")
