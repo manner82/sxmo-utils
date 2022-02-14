@@ -45,7 +45,7 @@ case "$SXMO_WM" in
 		superctl start sxmo_wob
 		superctl start sxmo_menumode_toggler
 		superctl start bonsaid
-		swaymsg output '*' bg "$SXMO_BG_IMG" fill
+		#swaymsg output '*' bg "$SXMO_BG_IMG" fill
 		;;
 	dwm)
 		superctl start dunst
