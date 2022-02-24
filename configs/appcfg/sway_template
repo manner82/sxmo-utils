@@ -30,6 +30,14 @@ mode "menu" {
     bindsym --input-device=1:1:1c21800.lradc XF86AudioMute exec nothing # just a placeholder for "menu" mode
 }
 
+mode "move" {
+    bindsym --input-device=1:1:1c21800.lradc XF86AudioMute exec nothing
+}
+
+mode "pager" {
+    bindsym --input-device=1:1:1c21800.lradc XF86AudioMute exec nothing
+}
+
 ### Key bindings
 #
 # Basics:
