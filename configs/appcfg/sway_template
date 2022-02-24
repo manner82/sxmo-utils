@@ -37,6 +37,17 @@ mode "menu" {
     bindsym XF86AudioLowerVolume exec wtype -k Down
 }
 
+mode "nomod" {
+}
+
+mode "move" {
+    bindsym --input-device=1:1:1c21800.lradc XF86AudioMute exec nothing
+}
+
+mode "pager" {
+    bindsym --input-device=1:1:1c21800.lradc XF86AudioMute exec nothing
+}
+
 ### Key bindings
 #
 # Basics:
