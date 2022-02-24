@@ -17,8 +17,10 @@ setup_xkb() {
 }
 
 swaymsg -t subscribe -m "['mode']" | while read -r message; do
-	if printf %s "$message" | grep -q menu; then
+	if printf %s "$message" | grep -qE 'menu|move'; then
 		setup_xkb "$(xdg_data_path sxmo/xkb/xkb_mobile_movement_buttons)"
+	elif printf %s "$message" | grep -q pager; then
+		setup_xkb "$(xdg_data_path sxmo/xkb/xkb_mobile_pager_buttons)"
 	else
 		setup_xkb "$(xdg_data_path sxmo/xkb/xkb_mobile_normal_buttons)"
 	fi
