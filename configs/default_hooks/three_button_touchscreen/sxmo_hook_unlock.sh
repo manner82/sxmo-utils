@@ -19,6 +19,13 @@ sxmo_wakelock.sh lock not_screenoff infinite
 sxmo_led.sh blink red green &
 sxmo_hook_statusbar.sh state_change &
 
+case "$SXMO_WM" in
+  sway)
+    ! [ -f "/tmp/last-binding-state" ] || swaymsg mode "$(cat /tmp/last-binding-state)"
+    rm -f /tmp/last-binding-state
+    ;;
+esac
+
 sxmo_wm.sh dpms off
 sxmo_wm.sh inputevent touchscreen on
 
@@ -42,6 +49,7 @@ else
 		sway)
 			sxmo_daemons.sh start idle_locker sxmo_idle.sh -w \
 				timeout "${SXMO_UNLOCK_IDLE_TIME:-120}" 'sh -c "
+		      [ -f /tmp/last-binding-state ] || swaymsg -t get_binding_state | gojq -r .name >/tmp/last-binding-state
 					swaymsg mode default;
 					exec sxmo_hook_lock.sh
 				"'

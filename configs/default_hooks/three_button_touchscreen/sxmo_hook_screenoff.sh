@@ -23,7 +23,6 @@ sxmo_log "transitioning to stage off"
 printf screenoff > "$SXMO_STATE"
 sxmo_hook_statusbar.sh state_change &
 
-[ "$SXMO_WM" = "sway" ] && swaymsg mode default
 sxmo_wm.sh dpms on
 sxmo_wm.sh inputevent touchscreen off
 
@@ -37,6 +36,10 @@ case "$SXMO_WM" in
 			sxmo_dmenu.sh close
 		fi
 		;;
+	sway)
+		[ -f /tmp/last-binding-state ] || swaymsg -t get_binding_state | gojq -r .name >/tmp/last-binding-state
+		swaymsg mode "default"
+	  ;;
 esac
 
 sxmo_hook_wakelocks.sh

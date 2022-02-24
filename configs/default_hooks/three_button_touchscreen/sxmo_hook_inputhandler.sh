@@ -378,7 +378,20 @@ case "$ACTION" in
 		exit 0
 		;;
 	"twodowntopedge")
-		sxmo_dmenu.sh isopen || sxmo_appmenu.sh sys
+		# TODO do something similar for x11
+		if [ "$SXMO_WM" = "sway" ]; then
+			binding_mode=$(swaymsg -t get_binding_state | jq -r ".name")
+			newmode=move
+			case "$binding_mode" in
+				move)
+					newmode=pager
+					;;
+				pager)
+					newmode=default
+					;;
+			esac
+			swaymsg mode "$newmode"
+		fi
 		exit 0
 		;;
 	"uptopedge")
@@ -431,11 +444,7 @@ case "$ACTION" in
 			exit
 		fi
 		sxmo_dmenu.sh close
-		if [ -n "$WMCLASS" ]; then
-			sxmo_hook_lock.sh
-		else
-			sxmo_hook_screenoff.sh
-		fi
+		sxmo_hook_screenoff.sh
 		exit 0
 		;;
 	"bottomrightcorner")
