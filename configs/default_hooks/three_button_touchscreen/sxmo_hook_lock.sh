@@ -9,6 +9,13 @@
 sxmo_log "transitioning to stage lock"
 printf lock > "$SXMO_STATE"
 
+case "$SXMO_WM" in
+	sway)
+		[ -f /tmp/last-binding-state ] || swaymsg -t get_binding_state | gojq -r .name >/tmp/last-binding-state
+		swaymsg mode default
+		;;
+esac
+
 # This hook is called when the system reaches a locked state
 
 sxmo_uniq_exec.sh sxmo_led.sh blink blue &

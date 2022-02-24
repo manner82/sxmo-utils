@@ -12,6 +12,14 @@ sxmo_log "transitioning to stage off"
 printf screenoff > "$SXMO_STATE"
 
 sxmo_uniq_exec.sh sxmo_led.sh blink blue red &
+
+case "$SXMO_WM" in
+	sway)
+		[ -f /tmp/last-binding-state ] || swaymsg -t get_binding_state | gojq -r .name >/tmp/last-binding-state
+		swaymsg mode default
+		;;
+esac
+
 LEDPID=$!
 sxmo_hook_statusbar.sh state_change
 
@@ -30,6 +38,9 @@ case "$SXMO_WM" in
 			sxmo_dmenu.sh close
 		fi
 		;;
+	sway)
+		swaymsg mode "default"
+	  ;;
 esac
 
 # Start a periodic daemon (8s) "try to go to crust" after 8 seconds

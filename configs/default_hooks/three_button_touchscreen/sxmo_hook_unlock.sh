@@ -15,6 +15,13 @@ sxmo_uniq_exec.sh sxmo_led.sh blink red green &
 LEDPID=$!
 sxmo_hook_statusbar.sh state_change
 
+case "$SXMO_WM" in
+  sway)
+    ! [ -f "/tmp/last-binding-state" ] || swaymsg mode "$(cat /tmp/last-binding-state)"
+    rm -f /tmp/last-binding-state
+    ;;
+esac
+
 sxmo_wm.sh dpms off
 sxmo_wm.sh inputevent touchscreen on
 superctl start sxmo_hook_lisgd

@@ -43,9 +43,10 @@ case "$1" in
 esac
 
 if [ -n "$WAYLAND_DISPLAY" ]; then
+	LAST_BINDING_STATE="$(swaymsg -t get_binding_state | gojq -r .name)"
 	swaymsg mode menu -q # disable default button inputs
 	cleanmode() {
-		swaymsg mode default -q
+		swaymsg mode "$LAST_BINDING_STATE" -q
 	}
 	trap 'cleanmode' TERM INT
 
