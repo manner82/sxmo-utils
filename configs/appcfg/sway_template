@@ -9,10 +9,10 @@
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 # Home row direction keys, like vim
-set $left h
-set $down j
-set $up k
-set $right l
+set $left j
+set $down h
+set $up l
+set $right k
 # Your preferred terminal emulator
 set $term sxmo_terminal.sh
 # Your preferred application launcher
@@ -44,15 +44,23 @@ mode "pager" {
 #
     # Start a terminal
     bindsym $mod+Return exec $term
+    bindsym Mod1+Ctrl+w exec firefox
+    bindsym Mod1+Ctrl+m exec $term neomutt
+    bindsym Mod1+Ctrl+n exec $term newsboat
+    bindsym $mod+c exec bash -c "sxmo_wm.sh togglebar && { sxmo_wm.sh focusedwindow | grep -q firefox; } && sxmo_type -k F11"
+    bindsym $mod+o exec passmenu
+    bindsym $mod+i exec passmenu user
+    bindsym $mod+Ctrl+o exec passmenu --copy
+    bindsym $mod+Ctrl+i exec passmenu --copy user
 
+    # kill focused window
+    bindsym $mod+Shift+c kill
     # Launch appmenu
     bindsym $mod+p exec sxmo_appmenu.sh
 
     # Launch scripts menu
-    bindsym $mod+i exec sxmo_appmenu.sh scripts
+    # bindsym $mod+i exec sxmo_appmenu.sh scripts
 
-    # Kill focused window
-    bindsym $mod+Shift+q kill
 
     # Start your launcher
     bindsym $mod+d exec $menu
@@ -64,11 +72,13 @@ mode "pager" {
     # mouse button for dragging.
     floating_modifier $mod normal
 
-    # Reload the configuration file
-    bindsym $mod+Shift+c reload
+    # reload the configuration file
+    bindsym $mod+Shift+r reload
 
-    # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+    # exit sway (logs you out of your Wayland session)
+    bindsym $mod+Shift+q exec swaymsg exit
+
+
 #
 # Moving around:
 #
@@ -141,7 +151,7 @@ mode "pager" {
     bindsym $mod+e layout toggle split
 
     # Make the current focus fullscreen
-    # bindsym $mod+f fullscreen
+    bindsym $mod+f fullscreen
 
     # Toggle the current focus between tiling and floating mode
     bindsym $mod+Shift+space floating toggle
