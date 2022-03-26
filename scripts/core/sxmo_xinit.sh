@@ -41,14 +41,20 @@ defaultkeyboard() {
 	fi
 }
 
+with_dbus() {
+	echo "$DBUS_SESSION_BUS_ADDRESS" > "$XDG_RUNTIME_DIR"/dbus.bus
+	# shellcheck source=configs/appcfg/xinit_template
+	. "$XDG_CONFIG_HOME"/sxmo/xinit
+	exec dwm
+}
 
 start() {
-	# shellcheck disable=SC2016
-	dbus-run-session sh -c '
-		echo "$DBUS_SESSION_BUS_ADDRESS" > "$XDG_RUNTIME_DIR"/dbus.bus
-		. "$XDG_CONFIG_HOME"/sxmo/xinit
-		dwm
-	'
+	if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+		exec dbus-run-session -- "$0" "with_dbus"
+	else
+		# This needs to be run in a subshell
+		( with_dbus )
+	fi
 }
 
 cleanup() {

@@ -20,12 +20,18 @@ defaults() {
 	[ -e "$HOME"/.Xresources ] && xrdb -merge "$HOME"/.Xresources
 }
 
+with_dbus() {
+	echo "$DBUS_SESSION_BUS_ADDRESS" > "$XDG_RUNTIME_DIR"/dbus.bus
+	exec /usr/bin/sway -c "$XDG_CONFIG_HOME/sxmo/sway"
+}
+
 start() {
-	# shellcheck disable=SC2016
-	dbus-run-session sh -c '
-		echo "$DBUS_SESSION_BUS_ADDRESS" > "$XDG_RUNTIME_DIR"/dbus.bus
-		/usr/bin/sway -c "$XDG_CONFIG_HOME/sxmo/sway"
-	'
+	if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+		exec dbus-run-session -- "$0" "with_dbus"
+	else
+		# This needs to be run in a subshell
+		( with_dbus )
+	fi
 }
 
 cleanup() {
