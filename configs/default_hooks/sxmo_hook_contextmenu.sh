@@ -827,6 +827,7 @@ case "$WMCLASS" in
 			$([ "$SXMO_MENU" = "wofi" ] && echo "$icon_grd All Apps      ^ 0 ^ wofi -O alphabetical -i --show drun")
 			$([ "$SXMO_MENU" != "wofi" ] && command -v j4-dmenu-desktop > /dev/null && echo "$icon_grd All Apps     ^ 0 ^ j4-dmenu-desktop --dmenu=sxmo_dmenu.sh --term=sxmo_terminal.sh")
 			$icon_grd Binaries                                           ^ 0 ^ sxmo_brun.sh
+			$icon_grd Android                                            ^ 0 ^ sxmo_waydroid.sh
 			$icon_dir Files                                              ^ 0 ^ sxmo_files.sh
 			$icon_phn Dialer                                             ^ 0 ^ sxmo_modemdial.sh
 			$icon_msg Texts                                              ^ 0 ^ sxmo_modemtext.sh
