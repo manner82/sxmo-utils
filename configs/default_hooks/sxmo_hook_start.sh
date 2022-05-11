@@ -83,9 +83,9 @@ superctl start sxmo_notificationmonitor
 # To setup initial lock state
 sxmo_hook_unlock.sh
 
-superctl start pipewire
-superctl start pipewire-pulse
-superctl start wireplumber
+#superctl start pipewire
+#superctl start pipewire-pulse
+#superctl start wireplumber
 
 if false; then
 (
