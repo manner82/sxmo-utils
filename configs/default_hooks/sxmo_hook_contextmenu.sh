@@ -503,6 +503,10 @@ case "$WMCLASS" in
 						$icon_aru Scroll up       ^ 1 ^ sxmo_type -M Shift -k Prior
 						$icon_ard Scroll down     ^ 1 ^ sxmo_type -M Shift -k Next
 						$icon_lnk URL Mode        ^ 0 ^ sxmo_type -M Shift -M Ctrl -k u
+						$icon_pst Search          ^ 0 ^ sxmo_type -M Shift -M Ctrl r
+						$icon_pst Search Backward ^ 0 ^ sxmo_type -M Ctrl r
+						$icon_pst Search Forward  ^ 0 ^ sxmo_type -M Ctrl s
+						$icon_pst Search Exit     ^ 0 ^ sxmo_type -M Ctrl g
 						$icon_kbd Hotkeys         ^ 0 ^ sxmo_appmenu.sh sthotkeys
 						$icon_fnd Search Field	  ^ 0 ^ sxmo_type -M Ctrl -M Shift -k r
 						$icon_aru Search Back	  ^ 0 ^ sxmo_type -M Ctrl -k r
