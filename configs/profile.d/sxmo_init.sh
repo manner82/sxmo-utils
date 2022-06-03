@@ -9,9 +9,10 @@
 _sxmo_is_running() {
 	unset SXMO_WM
 
-	if [ -f "${XDG_RUNTIME_DIR}"/sxmo.swaysock ]; then
+  # TODO most probably this patch is not needed any more
+	if [ -f "${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"/sxmo.swaysock ]; then
 		unset SWAYSOCK
-		if SWAYSOCK="$(cat "${XDG_RUNTIME_DIR}"/sxmo.swaysock)" \
+		if SWAYSOCK="$(cat "${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"/sxmo.swaysock)" \
 			swaymsg 2>/dev/null; then
 			printf "Detected the Sway environment\n" >&2
 			export SXMO_WM=sway
@@ -60,8 +61,8 @@ _sxmo_load_environments() {
 	export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 	export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 	export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
-	XDG_RUNTIME_DIR="$(_sxmo_find_runtime_dir)"
-	export XDG_RUNTIME_DIR
+  # TODO: most probably this patch is not needed anymore
+	export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
 	export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 	export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
 
