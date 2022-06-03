@@ -295,7 +295,7 @@ EOF
 				deletenetworkmenu
 				;;
 			*"Nmtui" )
-				sxmo_terminal.sh nmtui || continue # Killeable
+				sxmo_terminal.sh  --font=monospace:size=8 nmtui || continue # Killeable
 				;;
 			*"Disable GSM"|*"Enable GSM" )
 				togglegsm
