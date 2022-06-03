@@ -9,9 +9,9 @@
 _sxmo_is_running() {
 	unset SXMO_WM
 
-	if [ -f "${XDG_RUNTIME_DIR:-/dev/shm/user/$(id -u)}"/sxmo.swaysock ]; then
+	if [ -f "${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"/sxmo.swaysock ]; then
 		unset SWAYSOCK
-		if SWAYSOCK="$(cat "${XDG_RUNTIME_DIR:-/dev/shm/user/$(id -u)}"/sxmo.swaysock)" \
+		if SWAYSOCK="$(cat "${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"/sxmo.swaysock)" \
 			swaymsg 2>/dev/null; then
 			printf "Detected the Sway environment\n" >&2
 			export SXMO_WM=sway
@@ -44,7 +44,7 @@ _sxmo_load_environments() {
 	export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 	export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 	export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
-	export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/dev/shm/user/$(id -u)}"
+	export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
 	export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 
 	export SXMO_CACHEDIR="${SXMO_CACHEDIR:-$XDG_CACHE_HOME/sxmo}"
