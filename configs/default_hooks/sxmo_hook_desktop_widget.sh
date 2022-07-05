@@ -10,16 +10,16 @@
 
 pangodraw() {
 	date +"<big><big><b>%H</b>:%M</big></big>" #date with some pango markup syntax (https://docs.gtk.org/Pango/pango_markup.html)
-	date +"<small><small>%a %d %b %Y</small></small>"
+	date +"<small><small>%b %d %a (W%V)</small></small>"
 
 	# here you can output whatever you want to end up in the widget
 	# make sure to use pango markup syntax if you want colours etc, ANSI is not supported by wayout
 	# for instance, you can show details about the activated network connections:
 	#nmcli -w 3 -c no -p -f DEVICE,STATE,NAME,TYPE con show | grep activated | sed 's/activated/   /' | sed '/^\s*$/d' 2> /dev/null
 	# make sure to end with an empty line, to denote the end of data for wayout
-	printf "<small><small><small><small><small><small>"
+	printf "<small><small><small><small>"
 	cat $HOME/.local/khal.txt
-	printf "</small></small></small></small></small></small>"
+	printf "</small></small></small></small>"
 	echo
 	echo
 }
