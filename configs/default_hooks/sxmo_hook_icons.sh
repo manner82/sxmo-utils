@@ -53,6 +53,7 @@ icon_fil="" #file
 icon_fll="" #flashlight
 icon_flt="" #filter/pipe
 icon_fnd="" #search/find
+icon_gam="🎮" # game
 icon_glb="" #globe
 icon_gps='' #gps
 icon_grd=""
