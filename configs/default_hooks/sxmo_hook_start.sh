@@ -22,14 +22,6 @@ done
 
 # Load our sound daemons
 
-if [ "$(command -v pulseaudio)" ]; then
-	superctl start pulseaudio
-elif [ "$(command -v pipewire)" ]; then
-	# pipewire-pulse will start pipewire
-	superctl start pipewire-pulse
-	superctl start wireplumber
-fi
-
 # Periodically update some status bar components
 sxmo_hook_statusbar.sh all
 sxmo_daemons.sh start statusbar_periodics sxmo_run_aligned.sh 60 \
