@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+shopt -s nullglob globstar
+
+# busctl call --user sm.puri.OSK0 /sm/puri/OSK0 sm.puri.OSK0 SetVisible b true
+# export BEMENU_BACKEND=wayland
+# export BEMENU_BACKEND=curses
+again=0
+copy=0
+
+if [ "${SXMO_WM}" != "sway" ]; then
+	X11=1
+fi
+
+while true; do
+	if [ "${1:-}" = "--copy" ]; then
+		copy=1
+		shift
+	elif [ "${1:-}" = "--again" ]; then
+		again=1
+		shift
+	else
+		break
+	fi
+done
+
+dmenu() {
+  if [ -x /usr/bin/sxmo_dmenu.sh ]; then
+    /usr/bin/sxmo_dmenu_with_kb.sh -l 10
+  elif [ "$X11" = 1 ]; then
+    gdmenu "$@"
+  else
+    bemenu -p "Password" -n "$@"
+    # wofi --dmenu
+  fi
+}
+
+ask() {
+	if [ "$again" = 1 ]; then
+    # TODO retry otp?
+		cat /tmp/.passmenu | dmenu "$@"
+		return $?
+	fi
+	prefix=${PASSWORD_STORE_DIR-~/.password-store}
+	password_files=( "$prefix"/**/*.gpg )
+	password_files=( "${password_files[@]#"$prefix"/}" )
+	password_files=( "${password_files[@]%.gpg}" )
+
+	! test -f /tmp/.passmenu || password_files=( "$(cat /tmp/.passmenu)" "${password_files[@]}" )
+	printf '%s\n' "${password_files[@]}" | dmenu "$@"
+}
+
+clipboard-clear() {
+	sleep 60s
+	wl-copy --clear
+}
+
+store() {
+  if [ "${X11:-}" = 1 ]; then
+    if [ "$copy" = 1 ]; then
+      xclip -r -i -selection clipboard
+    else
+      xargs xdotool type --file -
+    fi
+    return 0
+  fi
+
+	if [ "$copy" = 1 ]; then
+		wl-copy
+		ret=$?
+		clipboard-clear &
+		return $ret
+	else
+		xargs wtype "$@"
+		return $?
+	fi
+	# ydotool type --file -
+}
+
+if [ "${1:-}" == "user" ]; then
+	password=$(ask)
+	[[ -n $password ]] || exit 1
+	output=$(pass show "$password" | head -2 | tail -1)
+else
+	password=$(ask)
+	[[ -n $password ]] || exit 1
+  action="show"
+  if [[ "$password" == "otp/"* ]]; then
+    action="otp"
+  fi
+	output=$(pass "$action" "$password")
+fi
+
+echo -n "$password" >/tmp/.passmenu
+
+echo "$output" | { IFS= read -r pass; printf %s "$pass"; } | store
