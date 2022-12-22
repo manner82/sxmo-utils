@@ -77,7 +77,7 @@ getprogchoices() {
 	fi
 
 	# For the Sys menu decorate at top with notifications if >1 notification
-	if [ "$WINNAME" = "Sys" ]; then
+	# if [ "$WINNAME" = "Sys" ]; then
 		NNOTIFICATIONS="$(find "$SXMO_NOTIFDIR" -type f | wc -l)"
 		if [ "$NNOTIFICATIONS" -gt 0 ]; then
 			CHOICES="
@@ -85,7 +85,7 @@ getprogchoices() {
 				$CHOICES
 			"
 		fi
-	fi
+	# fi
 
 	CHOICES="
 		$(call_entries)
