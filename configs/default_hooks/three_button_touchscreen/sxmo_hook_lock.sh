@@ -14,6 +14,9 @@
 # shellcheck source=scripts/core/sxmo_common.sh
 . sxmo_common.sh
 
+exec "$(dirname "$0")/sxmo_hook_screenoff.sh"
+exit 0
+
 exec 3<> "$SXMO_STATE.lock"
 flock -x 3
 
