@@ -48,15 +48,15 @@ else
 	case "$SXMO_WM" in
 		sway)
 			sxmo_daemons.sh start idle_locker sxmo_idle.sh -w \
-				timeout "${SXMO_UNLOCK_IDLE_TIME:-120}" 'sh -c "
+				timeout "${SXMO_UNLOCK_IDLE_TIME:-600}" 'sh -c "
 		      [ -f /tmp/last-binding-state ] || swaymsg -t get_binding_state | gojq -r .name >/tmp/last-binding-state
 					swaymsg mode default;
-					exec sxmo_hook_lock.sh
+					exec sxmo_hook_screenoff.sh
 				"'
 			;;
 		dwm)
 			sxmo_daemons.sh start idle_locker sxmo_idle.sh -w \
-				timeout "${SXMO_UNLOCK_IDLE_TIME:-120}" "sxmo_hook_lock.sh"
+				timeout "${SXMO_UNLOCK_IDLE_TIME:-600}" "sxmo_hook_lock.sh"
 			;;
 	esac
 fi
