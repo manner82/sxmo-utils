@@ -36,7 +36,7 @@ case "$SXMO_WM" in
 		superctl start mako
 		superctl start sxmo_wob
 		superctl start sxmo_menumode_toggler
-		superctl start bonsaid
+		# superctl start bonsaid
 		# swaymsg output '*' bg "$SXMO_BG_IMG" fill  # TODO: not sure why it is not working
 		;;
 	dwm)
@@ -53,7 +53,7 @@ case "$SXMO_WM" in
 		superctl start autocutsel
 		superctl start autocutsel-primary
 		superctl start sxmo-x11-status
-		superctl start bonsaid
+		# superctl start bonsaid
 		[ -n "$SXMO_MONITOR" ] && xrandr --output "$SXMO_MONITOR" --primary
 		feh --bg-fill "$SXMO_BG_IMG"
 		;;
