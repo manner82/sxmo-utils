@@ -10,6 +10,10 @@ LISGD_THRESHOLD="${SXMO_LISGD_THRESHOLD:-125}"
 LISGD_THRESHOLD_PRESSED="${SXMO_LISGD_THRESHOLD_PRESSED:-60}"
 LISGD_INPUT_DEVICE="${SXMO_LISGD_INPUT_DEVICE:-"/dev/input/touchscreen"}"
 
+if ! [ -e "$LISGD_INPUT_DEVICE" ]; then
+  LISGD_INPUT_DEVICE=/dev/input/by-path/platform-1c2ac00.i2c-event
+fi
+
 if [ dwm = "$SXMO_WM" ]; then
 	case "$(xrandr | grep primary | cut -d' ' -f 5)" in
 		right) orientation=1;;
