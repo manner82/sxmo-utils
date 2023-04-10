@@ -46,8 +46,6 @@ lisgd "$@" -d "$LISGD_INPUT_DEVICE" ${orientation:+-o $orientation} \
 	-g "1,DU,T,*,setsid -f sxmo_hook_inputhandler.sh uptopedge" \
 	-g "2,UD,T,*,setsid -f sxmo_hook_inputhandler.sh twodowntopedge" \
 	-g "2,UD,B,*,setsid -f sxmo_hook_inputhandler.sh twodownbottomedge" \
-	-g "1,DU,R,*,P,setsid -f sxmo_hook_inputhandler.sh uprightedge" \
-	-g "1,UD,R,*,P,setsid -f sxmo_hook_inputhandler.sh downrightedge" \
 	-g "1,LR,R,S,setsid -f sxmo_hook_inputhandler.sh rightrightedge_short" \
 	-g "1,RL,L,S,setsid -f sxmo_hook_inputhandler.sh leftrightedge_short" \
 	-g "1,RL,*,L,setsid -f sxmo_hook_inputhandler.sh longoneleft" \
