@@ -28,16 +28,19 @@ else
 	sxmo_log "opening menu for wmclass $WMCLASS"
 fi
 
+CUSTOMMENU=1
 case "$WMCLASS" in
 	scripts)
 		# Scripts menu
 		CHOICES="$(sxmo_hook_scripts.sh)"
 		WINNAME=Scripts
+		CUSTOMMENU=0
 		;;
 	applications)
 		# Apps menu
 		CHOICES="$(sxmo_hook_apps.sh)"
 		WINNAME=Apps
+		CUSTOMMENU=0
 		;;
 	modem)
 		# modem related
@@ -55,6 +58,7 @@ case "$WMCLASS" in
 			$icon_img Config VVM                 ^ 1 ^ sxmo_vvmdconfig.sh
 		"
 		WINNAME=Modem
+		CUSTOMMENU=0
 		;;
 	config)
 		# System Control menu
@@ -118,6 +122,7 @@ case "$WMCLASS" in
 			$icon_inf Version                    ^ 0 ^ sxmo_terminal.sh sxmo_version.sh --block
 		"
 		WINNAME=Config
+		CUSTOMMENU=0
 		;;
 	power)
 		# Power menu
@@ -133,6 +138,7 @@ case "$WMCLASS" in
 			$icon_pwr Poweroff           ^ 0 ^ confirm Poweroff && sxmo_power.sh poweroff
 		"
 		WINNAME=Power
+		CUSTOMMENU=0
 		;;
 	*mpv*)
 		# MPV
@@ -824,6 +830,7 @@ case "$WMCLASS" in
 		WINNAME=Links
 		;;
 	*)
+		CUSTOMMENU=0
 		# Default system menu (no matches)
 		CHOICES="
 			$icon_grd Scripts                                            ^ 0 ^ sxmo_appmenu.sh scripts
@@ -862,4 +869,8 @@ case "$WMCLASS" in
 esac
 
 printf "%b\n" "$WINNAME"
+if [ "$CUSTOMMENU" = 1 ]; then
+  printf "\n\t\t\t\t\t\t$icon_key Type username   ^ 0 ^ passmenu user"
+  printf "\n\t\t\t\t\t\t$icon_lck Type password   ^ 0 ^ passmenu"
+fi
 printf "%b\n" "$CHOICES"
