@@ -31,10 +31,17 @@ _handle_new_notif_file(){
 	action="$(awk NR==2 "$file")"
 	msg="$(tail -n+3 "$file" | cut -c1-70)"
 
-	if dunstify --action="2,open" "$msg" | grep -q 2; then
-		_clear_notif_group "$group"
-		setsid -f sh -c "$action" > /dev/null 2>&1
-	fi &
+	case "$(dunstify --action="default,Open" "$msg")" in
+		"2")
+			#
+			# _clear_notif_group "$group"
+			#
+			;;
+		"default")
+			_clear_notif_group "$group"
+			setsid -f sh -c "$action" > /dev/null 2>&1
+			;;
+	esac
 }
 
 _notifications_hook() {
