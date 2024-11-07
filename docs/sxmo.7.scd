@@ -49,7 +49,7 @@ A brief overview of sxmo's features (in order of presentation):
   Menu* which allows you to browser your filesystem via _sxmo_files.sh_(1); various
   menus for *Configuration* and more. See MENUS.
 - *Window management*: sxmo uses tiling window managers, which makes for a nice
-  fit on mobile devices.
+  fit on mobile devices. See WINDOW MANAGEMENT.
 - *Autosuspend, screen blanking, and locking*: sxmo uses a state
   mechanism that allows automatically suspends the device when idle (unless certain
   programs block it); it blanks the
@@ -247,13 +247,6 @@ Hooks (and configuration files) are versioned with a version hash in a comment.
 After upgrading your installation you are asked to run _sxmo_migrate.sh_(1) to
 consolidate any new changes from our side with your own modifications. See
 UPDATING.
-
-Note that some hooks are in a device-specific subdirectory under the *hooks/*
-main directory. This allows you to have hooks associated with a certain device.
-See DEVICES. For instance, in */usr/share/sxmo/default_hooks/* there are several
-device subdirectories, one of which will be your $SXMO_DEVICE_NAME.
-Device-specific hooks go here and these take presendence over the more generic
-hooks.
 
 While you can manually copy and edit hooks to your liking,
 _sxmo_hookmenu.sh_ (MENU > config > hooks) simplifies this process.
