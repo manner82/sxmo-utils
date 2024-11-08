@@ -12,6 +12,7 @@ OPTIONS="
 alacritty --embed
 st -w
 surf -e
+urxvt -embed
 zathura -e
 "
 
