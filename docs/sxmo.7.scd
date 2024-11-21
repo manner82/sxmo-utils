@@ -143,12 +143,21 @@ As soon as the system initialiazes, the following logs will be available in your
 	Contains standard error output from various programs running in your
 	sessions if you are using _tinydm_(1).
 *superd.log*
-	Logs the start of various sxmo (and other) background processes. 
+	Logs the start of various sxmo (and other) background processes on
+	systems that use superd. See SERVICES.
 
 # SERVICES
 
 Sxmo starts various background services, depending on your device and
-configuration. An overview of can be obtained by running *superctl status*.
+configuration. These are managed by a service manager such as _superd_(1) or
+_systemd_(1). An overview of can be obtained by running *superctl status*.
+
+The services are typically installed in */usr/share/sxmo/configs/services* or
+*/usr/share/sxmo/configs/external_services*. The difference between the two is
+that the latter services are for programs that aren't provided by sxmo-utils,
+and often conflict with (systemd) services already provided by distributions
+other than Alpine/postmarketOS. Depending on your distribution, they may not be
+used.
 
 *bonsaid*
 	_bonsaid_ manages the logic for the hardware buttons, and invokes
@@ -230,6 +239,7 @@ configuration. An overview of can be obtained by running *superctl status*.
 *wireplumber*
 	Session/policy manager for _pipewire_(1).
 
+SEE ALSO: _superctl_(1)
 
 # HOOKS
 
@@ -378,7 +388,8 @@ alphabetical order is provided below:
 	Runs when viewing incoming text messages for a given contact.
 
 *sxmo_hook_unlock.sh*
-	Runs when the system becomes unlocked again. This state is *NOT* the state
+	Runs when the system becomes unlocked again, i.e. the screen is on and
+	responsive again. This state is *NOT* the state
 	that screen lockers like  _peanutbutter_(1) enter after unlocking.
 
 In further sections in this documentations, all hooks relevant to the topic in
