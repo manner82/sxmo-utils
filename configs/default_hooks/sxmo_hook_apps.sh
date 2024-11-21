@@ -118,7 +118,7 @@ write_line_app ncmpcpp "$icon_mus Ncmpcpp" "sxmo_terminal.sh ncmpcpp"
 write_line_app neomutt "$icon_eml Neomutt" "sxmo_terminal.sh neomutt"
 write_line_app nethack "$icon_trm Nethack" "sxmo_terminal.sh nethack"
 write_line_app nheko "$icon_msg Nheko" "nheko"
-write_line_app nvim "$icon_vim Neovim" "sxmo_terminal.sh nvim"
+write_line_app nvim "$icon_nvim Neovim" "sxmo_terminal.sh nvim"
 write_line_app netsurf "$icon_glb Netsurf" "netsurf"
 write_line_app newsboat "$icon_rss Newsboat" "sxmo_terminal.sh newsboat"
 write_line_app com.gitlab.newsflash "$icon_rss Newsflash" com.gitlab.newsflash
