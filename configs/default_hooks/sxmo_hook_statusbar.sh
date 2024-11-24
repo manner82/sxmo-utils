@@ -17,9 +17,14 @@
 # right and "variable" icons (that come and go) on the left.
 
 set_time() {
-	date "+${SXMO_STATUS_DATE_FORMAT:-%H:%M}" | while read -r date; do
-		sxmobar -a time 99 "$date"
-	done
+	if pidof peanutbutter > /dev/null; then
+		#peanutbutter already features a clock, no need for one in the icon bar
+		sxmobar -d time
+	else
+		date "+${SXMO_STATUS_DATE_FORMAT:-%H:%M}" | while read -r date; do
+			sxmobar -a time 99 "$date"
+		done
+	fi
 }
 
 set_state() {
@@ -32,11 +37,10 @@ set_state() {
 		return
 	fi
 
-	if command -v peanutbutter 2> /dev/null; then
-		if [ "$SXMO_STATES" = "unlock screenoff"  ]; then
-			# no need for a state icon in this (default) scenario, the state will be obvious, either peanutbutter is on or it isn't
-			return
-		fi
+	if command -v peanutbutter > /dev/null; then
+		# no need for a state icon in this (default) scenario, the state will be obvious, either peanutbutter is on or it isn't
+		sxmobar -d state
+		return
 	fi
 
 	case "$(sxmo_state.sh get)" in
@@ -426,8 +430,10 @@ set_volume() {
 }
 
 set_notch() {
-	if [ -n "$SXMO_NOTCH" ]; then
+	if [ -n "$SXMO_NOTCH" ] && ! pidof peanutbutter > /dev/null; then
 		sxmobar -a notch "${SXMO_NOTCH_PRIO:-29}" "$SXMO_NOTCH"
+	else
+		sxmobar -d notch
 	fi
 }
 
@@ -449,6 +455,7 @@ case "$1" in
 		if [ -z "$SXMO_NO_MODEM" ]; then
 			set_modem
 		fi
+		set_notch
 		set_state
 		set_network wifi wlan0
 		;;

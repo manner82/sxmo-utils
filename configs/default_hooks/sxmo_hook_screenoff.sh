@@ -43,6 +43,8 @@ wait
 
 case "$SXMO_WM" in
 	sway)
-		command -v peanutbutter 2> /dev/null && peanutbutter --font Sxmo --statuscommand sxmo_hook_lockstatusbar.sh &
+		if command -v peanutbutter > /dev/null; then
+			peanutbutter --font Sxmo --statuscommand sxmo_hook_lockstatusbar.sh && sxmo_hook_statusbar.sh state_change &
+		fi
 		;;
 esac

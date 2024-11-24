@@ -22,7 +22,7 @@ WMNAME="$(printf %s "$XPROPOUT" | grep title: | cut -d" " -f2- | tr '[:upper:]' 
 
 sxmo_debug "STATE: $(sxmo_state.sh get) ACTION: $ACTION WMCLASS: $WMCLASS WMNAME: $WMNAME"
 
-if ! sxmo_state.sh get | grep -q unlock; then
+if sxmo_state.sh is_locked; then
 	case "$WMNAME" in # Handle programs
 		*"epy"*|*"epr"*)
 			case "$ACTION" in

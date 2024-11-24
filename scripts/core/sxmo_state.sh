@@ -5,7 +5,7 @@
 . sxmo_common.sh
 
 SXMO_STATE="${SXMO_STATE:-$XDG_RUNTIME_DIR/sxmo.state}"
-if command -v peanutbutter 2> /dev/null; then
+if command -v peanutbutter > /dev/null; then
 	#no separate lock stage needed when peanutbutter is used
 	SXMO_STATES="${SXMO_STATES:-unlock screenoff}"
 else
@@ -163,6 +163,12 @@ case "$action" in
 		lock_shared
 		read_state
 		printf %s "$state"
+		;;
+	is_locked)
+		pidof peanutbutter swaylock waylock i3lock > /dev/null && exit 0
+		if sxmo_state.sh get | grep -q unlock; then
+			exit 1
+		fi
 		;;
 	set)
 		lock_exclusive
