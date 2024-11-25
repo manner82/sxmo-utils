@@ -8,3 +8,9 @@ ACTION=="add", SUBSYSTEM=="iio", TEST=="in_proximity_raw" RUN+="/bin/chmod g+rw 
 ## Read device to monitor event
 ACTION=="add", SUBSYSTEM=="iio", TEST=="in_proximity_raw" RUN+="/bin/chgrp input $devnode"
 ACTION=="add", SUBSYSTEM=="iio", TEST=="in_proximity_raw" RUN+="/bin/chmod g+r $devnode"
+
+# LEDs
+ACTION=="add", SUBSYSTEM=="leds", RUN+="/bin/chgrp video /sys/class/leds/%k/brightness"
+ACTION=="add", SUBSYSTEM=="leds", RUN+="/bin/chmod g+w /sys/class/leds/%k/brightness"
+ACTION=="add", SUBSYSTEM=="leds", RUN+="/bin/chgrp video /sys/class/leds/%k/multi_intensity"
+ACTION=="add", SUBSYSTEM=="leds", RUN+="/bin/chmod g+w /sys/class/leds/%k/multi_intensity"
