@@ -1191,7 +1191,7 @@ The default values for environment variables are set in
 	States. See CONTACTS.
 *KEYBOARD*
 	the virtual keyboard used, defaults to *svkbd-mobile-intl* (_svkbd_(1)) on
-	Xorg on *wvkbd-mobile-intl* on Wayland.
+	Xorg on *wvkbd-mobile-intl* on Wayland. (_wvkbd_(1))
 *KEYBOARD_ARGS*
 	parameters to pass to the virtual keyboard upon launch
 *SXMO_BLOCKDIR*
