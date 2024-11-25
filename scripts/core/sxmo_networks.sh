@@ -145,22 +145,28 @@ addnetworkgsmmenu() {
 addnetworkwpamenu() {
 	SSID="$(cat <<EOF | sxmo_dmenu.sh -p "SSID"
 $icon_cls Close Menu
-$(nmcli d wifi list | tail -n +2 | grep -v '^\*' | awk -F'  ' '{ print $6 }' | grep -v '\-\-')
+$(nmcli -t -f SSID,SECURITY dev wifi | awk '!seen[$0]++' | sed 's/:/	/')
 EOF
 	)"
 	[ -z "$SSID" ] && return
 	echo "$SSID" | grep -q "Close Menu" && return
 
-	PASSPHRASE="$(cat <<EOF | sxmo_dmenu.sh -p "Passphrase"
+	SECURITY_TYPE="$(echo "$SSID" | cut -d"	" -f 2)"
+	SSID="$(echo "$SSID" | cut -d"	" -f 1)"
+
+	# If no security type, or it is '--' (not sure if this happens in terse mode), skip passphrase input
+	if [ -n "$SECURITY_TYPE" ] && [ "$SECURITY_TYPE" != "--" ]; then
+		PASSPHRASE="$(cat <<EOF | sxmo_dmenu.sh -p "Passphrase"
 $icon_cls Close Menu
 None
 EOF
-	)"
+		)"
 
-	if [ -z "$PASSPHRASE" ] || [ "None" = "$PASSPHRASE" ]; then
-		unset PASSPHRASE
+		if [ -z "$PASSPHRASE" ] || [ "None" = "$PASSPHRASE" ]; then
+			unset PASSPHRASE
+		fi
+		echo "$PASSPHRASE" | grep -q "Close Menu" && return
 	fi
-	echo "$PASSPHRASE" | grep -q "Close Menu" && return
 
 	notify_success "Adding connection" \
 		nmcli c add type wifi ifname wlan0 con-name "$SSID" ssid "$SSID" \
