@@ -9,4 +9,4 @@
 sxmo_hook_statusbar.sh state_change
 
 # obtain status output to pass to peanutbutter (this keeps running and updating to stdout)
-sxmo_status_watch.sh -o pango
+exec sxmo_status_watch.sh -o pango
