@@ -42,17 +42,24 @@ Whenever your configuration files are out-of-date when starting Sxmo, they will
 be moved aside (i.e. renamed with *.needs-revision* extension) and the default
 configuration will take its place. This ensures that the system always remains
 functional and no conflicts should arise. A red notification will pop up
-telling you have configuration files that need to be migrated. This migration
-is done by running a script named _sxmo_migrate_(1). This script can simply be
-launched from the configuration menu or via ssh (recommended). It first shows
-the differences between your configuration and the new default, and allows you
-to edit and apply your configuration accordingly. _sxmo_migrate_(1) uses
-*$DIFFTOOL* to help you merge your changes. By default $DIFFTOOL is set to
-*vimdiff*.
+telling you have configuration files that need to be migrated. 
+
+The migration is done by running a script named _sxmo_migrate_(1). This script
+can simply be launched from the configuration menu or via ssh (recommended). It
+first shows the differences between your configuration and the new default, and
+allows you to edit and apply your configuration accordingly. If you have
+_delta_(1) or _colordiff_(1) installed, they will be used to show the diff. In the
+edit stage, _sxmo_migrate_(1) uses *$DIFFTOOL* to help you merge your changes.
+By default $DIFFTOOL is set to *vimdiff*. If not available, your regular
+*$EDITOR* will be used.
 
 If you have any pending migrations, always make sure to complete the migration
 process before making any new changes to your configuration. It is also
 recommended to keep your configuration under version control (e.g. git).
+
+*Note:* The order of the diff arguments can be changed by setting environment
+variable *$SXMO_MIGRATE_ORDER* to "user:system", instead of the default
+"system:user". It can also be toggled at runtime.
 
 # TECHNICAL DETAILS
 
@@ -66,6 +73,8 @@ This version hash is expressed in a comment in the file itself, such as:
 
 You should *only* update this version hash when *sxmo_migrate.sh*
 prompts you to do so by showing a diff of a newer configversion hash.
+This information is used to determine whether your custom configuration 
+is up-to-date with the system-supplied defaults.
 
 ##  RESOLVING SYSTEM CONFIGURATIONS ON SYSTEM UPGRADE AND MAKE 
 
@@ -76,7 +85,16 @@ apk's perspective. You can merge apk's config changes by running *doas
 update-conf*. You can also run *apk audit* to list all the files that have
 changed from what apk originally installed.
 
-SEE ALSO: _sxmo_migrate_(1)
+# ENVIRONMENT
+
+_sxmo_migrate_(1) read the following environment variables:
+
+*DIFFTOOL*
+	The diff tool to use for *editing* and resolving migrations (not for display).
+	
+*SXMO_MIGRATE_ORDER*
+	Can be set to "user:system" or "system:user" (default). Determines the order
+	in which arguments are passed to diff and therefore how results are colored.
 
 # SEE ALSO
 

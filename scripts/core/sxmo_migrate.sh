@@ -15,10 +15,27 @@ if [ -z "$SXMO_DEVICE_NAME" ]; then
 fi
 
 smartdiff() {
-	if command -v colordiff > /dev/null; then
-		colordiff "$@"
+	#argument one is the system default
+	#argument two is the user version (to be migrated)
+
+	if [ "$SXMO_MIGRATE_ORDER" = "user:system" ]; then
+		printf "Your user file is in \e[31mred (-)\e[0m, the system default in \e[32mgreen (+)\e[0m\n"
 	else
-		diff "$@"
+		printf "The system default is in \e[31mred (-)\e[0m, your user changes in \e[32mgreen (+)\e[0m\n"
+		#swap arguments
+		set -- "$2" "$1"
+		echo "$@"
+	fi
+	if command -v delta > /dev/null; then
+		# shellcheck disable=SC2086
+		delta "$@"
+	elif command -v colordiff > /dev/null; then
+		# shellcheck disable=SC2086
+		colordiff -ud "$@"
+	else
+		# poor man's ad-hoc colordiff
+		# shellcheck disable=SC2086
+		diff -ud "$@" | sed -E -e 's/^-(.*)$/-\x1b[31m\1\x1b[0m/' -e 's/^\+(.*)$/+\x1b[32m\1\x1b[0m/' -e 's/^@@(.*)$/\x1b[34m@@\1\x1b[0m/'
 	fi
 }
 
@@ -32,7 +49,7 @@ resolvedifference() {
 
 	(
 		printf "\e[31mThe file \e[32m%s\e[31m differs\e[0m\n" "$userfile"
-		smartdiff -ud "$defaultfile" "$userfile"
+		smartdiff "$userfile" "$defaultfile"
 	) | more
 
 	printf "\e[31mMigration options for \e[32m%s\e[31m:\e[0m\n" "$userfile"
@@ -41,6 +58,7 @@ resolvedifference() {
 	printf "2 - Open [e]ditor and merge the changes yourself; take care to set the same configversion.\n"
 	printf "3 - Use your [u]ser version as-is; you verified it's compatible. (Auto-updates configversion only).\n"
 	printf "4 - [i]gnore, do not resolve and don't change anything, ask again next time. (default)\n"
+	printf "5 - Change the diff argument [o]rder and ask again\n"
 
 	printf "\e[33mHow do you want to resolve this? Choose one of the options above [1234deui]\e[0m "
 
@@ -64,9 +82,17 @@ resolvedifference() {
 			#open editor with both files and the diff
 			export DIFFTOOL="${DIFFTOOL:-vimdiff}"
 			if [ -n "$DIFFTOOL" ] && command -v "$DIFFTOOL" >/dev/null; then # ex vimdiff
-				set -- "$DIFFTOOL" "$defaultfile" "$userfile"
+				if [ "$SXMO_MIGRATE_ORDER" = "user:system" ]; then
+					set -- "$DIFFTOOL" "$userfile" "$defaultfile"
+				else
+					set -- "$DIFFTOOL" "$defaultfile" "$userfile"
+				fi
 			else
-				diff -u "$defaultfile" "$userfile" > "${XDG_RUNTIME_DIR}/migrate.diff"
+				if [ "$SXMO_MIGRATE_ORDER" = "user:system" ]; then
+					diff -u "$userfile" "$defaultfile" > "${XDG_RUNTIME_DIR}/migrate.diff"
+				else
+					diff -u "$defaultfile" "$userfile" > "${XDG_RUNTIME_DIR}/migrate.diff"
+				fi
 				# shellcheck disable=SC2086
 				set -- $EDITOR "$userfile" "$defaultfile" "${XDG_RUNTIME_DIR}/migrate.diff"
 			fi
@@ -90,6 +116,13 @@ resolvedifference() {
 				refline="$(head -n5 "$defaultfile" | grep -m1 "configversion: ")"
 				# fall back in case the userfile doesn't contain a configversion at all yet
 				sed -i "2i$refline" "$userfile" || abort=1
+			fi
+			;;
+		[5oO]*)
+			if [ "$SXMO_MIGRATE_ORDER" = "user:system" ]; then
+				SXMO_MIGRATE_ORDER="system:user"
+			else
+				SXMO_MIGRATE_ORDER="user:system"
 			fi
 			;;
 		*)
@@ -249,7 +282,7 @@ checkhooks() {
 			fi
 		elif [ "$MODE" != "sync" ]; then
 			(
-				smartdiff -ud "/dev/null" "$hook"
+				smartdiff "$hook" "/dev/null"
 				printf "\e[31mThe hook \e[32m%s\e[31m does not exist (anymore), remove it? [y/N] \e[0m\n" "$hook"
 			) | more
 			read -r reply < /dev/tty
