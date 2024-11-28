@@ -112,6 +112,7 @@ icon_sav="󰆓" #save
 icon_scn="󰚫" #scanner
 icon_sfl="" #shuffle, random
 icon_shr="󰁄" #shrink
+icon_sim="󰒧" # sim card
 icon_snd="" #send
 icon_spk="" #speaker
 icon_spl=""
