@@ -109,6 +109,7 @@ icon_rol="" #rotate left
 icon_ror="" #rotate right
 icon_rss=""
 icon_sav="󰆓" #save
+icon_scn="󰚫" #scanner
 icon_sfl="" #shuffle, random
 icon_shr="󰁄" #shrink
 icon_snd="" #send
