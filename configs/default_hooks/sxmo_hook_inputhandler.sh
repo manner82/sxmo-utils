@@ -110,6 +110,36 @@ case "$WMCLASS" in
 				;;
 		esac
 		;;
+	*"links"*)
+		case "$ACTION" in
+			# you're probably dragging the scrollbar
+			*"uprightedge") exit 0 ;;
+			*"downrightedge") exit 0 ;;
+			*"onedown")
+				sxmo_type.sh -M Ctrl -M Shift -k b
+				exit 0
+				;;
+			*"oneup")
+				sxmo_type.sh -M Ctrl -M Shift -k f
+				exit 0
+				;;
+		esac
+		;;
+	*"netsurf"*)
+		case "$ACTION" in
+			# you're probably dragging the scrollbar
+			*"uprightedge") exit 0 ;;
+			*"downrightedge") exit 0 ;;
+			*"onedown")
+				sxmo_type.sh -k Page_Up
+				exit 0
+				;;
+			*"oneup")
+				sxmo_type.sh -k Page_Down
+				exit 0
+				;;
+		esac
+		;;
 	*"foot"*|*"st"*|*"vte"*|"terminal") # Terminals
 		case "$WMCLASS" in # Handle programs without touch support
 			*"st"*)
