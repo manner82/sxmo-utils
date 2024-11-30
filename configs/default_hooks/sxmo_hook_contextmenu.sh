@@ -573,6 +573,7 @@ case "$WMCLASS" in
 		# Netsurf
 		CHOICES="
 			$icon_flt Pipe URL          ^ 0 ^ sxmo_urlhandler.sh
+			$icon_lnk Enter URL         ^ 0 ^ sxmo_type.sh -M Ctrl -k l
 			$icon_zmi Zoom            ^ 1 ^ sxmo_type -M Ctrl -k plus
 			$icon_zmo Zoom            ^ 1 ^ sxmo_type -M Ctrl -k minus
 			$icon_arl History        ^ 1 ^ sxmo_type -M Alt -k Left
