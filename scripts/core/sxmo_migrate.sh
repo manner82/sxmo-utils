@@ -34,8 +34,9 @@ smartdiff() {
 		colordiff -ud "$@"
 	else
 		# poor man's ad-hoc colordiff
-		# shellcheck disable=SC2086
-		diff -ud "$@" | sed -E -e 's/^-(.*)$/-\x1b[31m\1\x1b[0m/' -e 's/^\+(.*)$/+\x1b[32m\1\x1b[0m/' -e 's/^@@(.*)$/\x1b[34m@@\1\x1b[0m/'
+		ESC=$(printf "\e")
+		# shellcheck disable=SC1087
+		diff -ud "$@" | sed -E -e "s/^-(.*)$/-$ESC[31m\1$ESC[0m/" -e "s/^\+(.*)$/+$ESC[32m\1$ESC[0m/" -e "s/^@@(.*)$/$ESC[34m@@\1$ESC[0m/"
 	fi
 }
 
