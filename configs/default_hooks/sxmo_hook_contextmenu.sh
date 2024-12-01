@@ -448,6 +448,7 @@ case "$WMCLASS" in
 				$icon_cls Close Tab        ^ 0 ^ sxmo_type.sh -k Escape :tabclose -k Return
 				$icon_win Split View       ^ 0 ^ sxmo_type.sh -k Escape :split -k Return
 				$icon_win Split View Vertical ^ 0 ^ sxmo_type.sh -k Escape :vsplit -k Return
+				$icon_msg All Chats  ^ 0 ^ sxmo_type.sh -k Escape :chats -k Return
 				$icon_msg Direct Messages  ^ 0 ^ sxmo_type.sh -k Escape :dms -k Return
 				$icon_grp Rooms            ^ 0 ^ sxmo_type.sh -k Escape :rooms -k Return
 				$icon_glb Spaces           ^ 0 ^ sxmo_type.sh -k Escape :spaces -k Return
