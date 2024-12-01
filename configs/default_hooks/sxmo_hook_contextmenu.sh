@@ -791,6 +791,24 @@ case "$WMCLASS" in
 		"
 		WINNAME=Tabbed
 		;;
+	*links*)
+		# Links Browser
+		CHOICES="
+			$icon_mnu Menu                 ^ 0 ^ sxmo_type.sh -k Escape
+			$icon_ret Follow Link          ^ 0 ^ sxmo_type.sh -k Enter
+			$icon_arl History              ^ 1 ^ sxmo_type.sh -k z
+			$icon_arr History              ^ 1 ^ sxmo_type.sh -k x
+			$icon_glb Enter URL            ^ 0 ^ sxmo_type.sh -k g
+			$icon_glb Edit Current URL     ^ 0 ^ sxmo_type.sh -k G
+			$icon_glb View Highlighted URL ^ 0 ^ sxmo_type.sh -M Ctrl -k g
+			$icon_cam Toggle Images        ^ 0 ^ sxmo_type.sh -k U002A
+			$icon_aru Scroll Up            ^ 1 ^ sxmo_type.sh -k p
+			$icon_ard Scroll Down          ^ 1 ^ sxmo_type.sh -k l
+			$icon_arl Scroll Left          ^ 1 ^ sxmo_type.sh -k U005B
+			$icon_arr Scroll Right         ^ 1 ^ sxmo_type.sh -k U005D
+		"
+		WINNAME=Links
+		;;
 	*)
 		# Default system menu (no matches)
 		CHOICES="
