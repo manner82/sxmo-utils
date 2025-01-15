@@ -104,7 +104,7 @@ if [ -z "$SXMO_NO_MODEM" ] && command -v ModemManager > /dev/null; then
 fi
 
 # Start the desktop wallpaper
-superctl start sxmo_bg
+# superctl start sxmo_bg
 
 # Start the desktop widget (e.g. clock)
 superctl start sxmo_conky
